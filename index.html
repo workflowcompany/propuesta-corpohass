@@ -20,7 +20,7 @@ html,body{height:100%}
 body{font-family:var(--mont);color:var(--ink);background:#fff;overflow:hidden;-webkit-font-smoothing:antialiased}
 h1,h2,h3,h4{font-family:var(--chx);font-weight:700;letter-spacing:-.015em;line-height:1.1}
 .red{color:var(--red)}.blue{color:var(--blue)}
-.deck{position:fixed;inset:0}
+.deck{position:fixed;inset:0;z-index:2}
 .slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:clamp(20px,4.5vw,64px) clamp(20px,5vw,80px);background:#fff;opacity:0;visibility:hidden;transform:translateX(7vw);transition:opacity .55s ease,transform .55s cubic-bezier(.22,1,.36,1),visibility 0s linear .55s;overflow:hidden}
 .slide.before{transform:translateX(-7vw)}
 .slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .55s ease,transform .55s cubic-bezier(.22,1,.36,1);z-index:2}
@@ -52,6 +52,9 @@ h2.title{font-size:clamp(25px,3.3vw,44px);margin-bottom:10px}
 .cover::before{width:70vmax;height:70vmax;right:-30vmax;top:-35vmax}
 .cover::after{width:46vmax;height:46vmax;left:-18vmax;bottom:-26vmax;border-width:3px}
 .wmark{position:absolute;right:-4vw;bottom:-10vh;font-family:var(--chx);font-weight:700;font-size:46vmin;color:rgba(255,255,255,.07);pointer-events:none;line-height:1}
+.global-wmark{position:fixed;right:clamp(-12px,0.5vw,10px);bottom:clamp(54px,10vh,92px);width:clamp(150px,24vmin,260px);aspect-ratio:1;opacity:.055;pointer-events:none;z-index:1;transition:opacity .3s}
+.global-wmark img{width:100%;height:100%;object-fit:contain;display:block}
+body.dark-ui .global-wmark{opacity:.12}
 .grid{display:grid;gap:clamp(10px,1.4vw,18px)}
 .g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
 .card{border:1px solid #e7e7ea;border-radius:16px;padding:clamp(13px,1.6vw,22px);background:#fff;transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s,border-color .3s}
@@ -148,6 +151,7 @@ body.dark-ui .nbtn{background:rgba(255,255,255,.14);border-color:rgba(255,255,25
 </head>
 <body>
 <div id="progress"><div id="bar"></div></div>
+<div class="global-wmark" aria-hidden="true"><img src="https://make-with-notion.s3.us-east-2.amazonaws.com/LOGO-22+(1).png" alt=""></div>
 <main class="deck">
 
 <!-- 1 · Portada -->
@@ -215,7 +219,6 @@ body.dark-ui .nbtn{background:rgba(255,255,255,.14);border-color:rgba(255,255,25
 
 <!-- 4 · Apertura sección 01 -->
 <section class="slide cover bgblue" data-sec="01 · Quiénes somos">
-  <div class="wmark">W</div>
   <div class="wrap">
     <div class="meganum">01</div>
     <h2>Quiénes somos</h2>
@@ -331,7 +334,6 @@ body.dark-ui .nbtn{background:rgba(255,255,255,.14);border-color:rgba(255,255,25
 
 <!-- 11 · Apertura sección 02 -->
 <section class="slide cover bgred" data-sec="02 · Lo que entendimos">
-  <div class="wmark">W</div>
   <div class="wrap">
     <div class="meganum">02</div>
     <h2>Lo que entendimos de ustedes</h2>
@@ -421,7 +423,6 @@ body.dark-ui .nbtn{background:rgba(255,255,255,.14);border-color:rgba(255,255,25
 
 <!-- 16 · Apertura sección 03 -->
 <section class="slide cover bgblue" data-sec="03 · La solución">
-  <div class="wmark">W</div>
   <div class="wrap">
     <div class="meganum">03</div>
     <h2>La solución propuesta</h2>
@@ -540,7 +541,6 @@ body.dark-ui .nbtn{background:rgba(255,255,255,.14);border-color:rgba(255,255,25
 
 <!-- 23 · Apertura sección 04 -->
 <section class="slide cover bgred" data-sec="04 · Plan de trabajo">
-  <div class="wmark">W</div>
   <div class="wrap">
     <div class="meganum">04</div>
     <h2>Plan de trabajo</h2>
@@ -621,7 +621,6 @@ body.dark-ui .nbtn{background:rgba(255,255,255,.14);border-color:rgba(255,255,25
 
 <!-- 28 · Apertura sección 05 -->
 <section class="slide cover bgblue" data-sec="05 · Inversión">
-  <div class="wmark">W</div>
   <div class="wrap">
     <div class="meganum">05</div>
     <h2>Inversión</h2>
@@ -770,7 +769,6 @@ body.dark-ui .nbtn{background:rgba(255,255,255,.14);border-color:rgba(255,255,25
 
 <!-- 35 · El cierre -->
 <section class="slide cover bgred" data-sec="06 · Cierre">
-  <div class="wmark">W</div>
   <div class="wrap">
     <div style="font-size:clamp(28px,3.4vw,44px)">🥑</div>
     <h2 style="font-size:clamp(24px,3.4vw,46px);line-height:1.18;margin:18px 0;max-width:24ch">Corpohass no necesita otro software. Necesita un solo lugar donde viva toda la relación con sus 251 afiliadas, sus 2,402 contactos y sus 300 usuarios del portal.</h2>
