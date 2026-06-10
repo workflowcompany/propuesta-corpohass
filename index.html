@@ -38,6 +38,9 @@ h2.title{font-size:clamp(25px,3.3vw,44px);margin-bottom:10px}
 .cover-logos{display:flex;justify-content:center;align-items:center;gap:clamp(24px,4vw,48px);margin-top:clamp(28px,4vw,48px);flex-wrap:wrap}
 .cover-logo{width:clamp(100px,12vw,140px);height:clamp(100px,12vw,140px);display:flex;align-items:center;justify-content:center;flex:none}
 .cover-logo img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
+.brand-panel{display:flex;align-items:center;justify-content:center;gap:clamp(12px,2vw,20px);min-height:min(420px,70vh);height:100%;padding:clamp(20px,3vw,32px);background:var(--soft);border-radius:16px}
+.brand-panel .twc-logo{width:min(75%,300px);max-height:min(380px,58vh);object-fit:contain;flex:0 1 auto;display:block}
+.brand-panel .partner-badge{width:clamp(56px,7vw,88px);height:auto;max-height:min(120px,18vh);object-fit:contain;flex:none;display:block}
 .ph.circle{border-radius:50%;width:84px;height:84px;margin:0 auto 12px;font-size:9.5px;flex:none}
 .cover{color:#fff}
 .cover.bgblue{background:var(--blue)}.cover.bgred{background:var(--red)}
@@ -160,7 +163,10 @@ body.dark-ui .nbtn{background:rgba(255,255,255,.14);border-color:rgba(255,255,25
 <!-- 2 · Tabla de contenidos -->
 <section class="slide" data-sec="Contenido">
   <div class="wrap split">
-    <div class="ph" style="min-height:300px">🖼️ Foto vertical del equipo TWC o workspace</div>
+    <div class="brand-panel">
+      <img class="twc-logo" src="https://make-with-notion.s3.us-east-2.amazonaws.com/LOGO-22+(1).png" alt="The Workflow Company">
+      <img class="partner-badge" src="https://make-with-notion.s3.us-east-2.amazonaws.com/Consulting+Partner+Badge+(9).png" alt="Notion Consulting Partner">
+    </div>
     <div>
       <p class="eyebrow">Contenido</p>
       <h2 class="title" style="margin-bottom:20px">Lo que van a encontrar</h2>
