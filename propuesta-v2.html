@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sustentación Corpohass · The Workflow Company</title>
+
+<!-- Fuentes: Montserrat (Google Fonts) + Chillax (Fontshare). Fallback a sans redondeada bold. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=chillax@600,700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   IDENTIDAD DE MARCA — THE WORKFLOW COMPANY (TWC)
+   ============================================================ */
+:root{
+  /* Paleta principal */
+  --rojo:#EF003C;        /* principal / acento */
+  --azul:#2700FF;        /* secundario */
+  --blanco:#FFFFFF;
+  --gris:#CACACA;        /* neutro */
+  --negro:#141414;
+
+  /* Escala Rojo */
+  --rojo-90:#7a0020; --rojo-70:#b8002e; --rojo-50:#EF003C; --rojo-30:#ff6f93; --rojo-10:#ffe1e8;
+  /* Escala Azul */
+  --azul-90:#150085; --azul-70:#1d00c2; --azul-50:#2700FF; --azul-30:#7d6bff; --azul-10:#e7e3ff;
+  /* Escala Gris */
+  --gris-90:#4a4a4a; --gris-70:#8a8a8a; --gris-50:#CACACA; --gris-30:#e6e6e6; --gris-10:#f5f5f6;
+  /* Guiño aguacate (sutil) */
+  --hass:#5a8a3c;
+
+  --font-head:'Chillax','Montserrat',ui-rounded,'Segoe UI',sans-serif;
+  --font-body:'Montserrat',ui-sans-serif,system-ui,sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  font-family:var(--font-body);
+  background:var(--negro);
+  color:var(--negro);
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.head{font-family:var(--font-head);font-weight:700;line-height:1.05;letter-spacing:-0.01em;}
+
+/* ============================================================
+   ESTRUCTURA DEL DECK
+   ============================================================ */
+.deck{position:fixed;inset:0;overflow:hidden;background:var(--negro);}
+.track{display:flex;height:100%;width:100%;transition:transform .55s cubic-bezier(.65,.02,.25,1);}
+.slide{
+  position:relative;flex:0 0 100vw;width:100vw;height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(40px,6vh,80px) clamp(48px,7vw,120px);
+  overflow:hidden;background:var(--blanco);
+}
+
+/* Slides de impacto (fondo sólido) */
+.slide.bg-rojo{background:var(--rojo);color:var(--blanco);}
+.slide.bg-azul{background:var(--azul);color:var(--blanco);}
+.slide.bg-dark{background:#0d0d12;color:var(--blanco);}
+.slide.bg-rojo h1,.slide.bg-azul h1,.slide.bg-dark h1{color:#fff;}
+
+/* ============================================================
+   MARCA DE AGUA TWC — sutil, esquina, no compite con contenido
+   ============================================================ */
+.w-shape{
+  position:absolute;
+  pointer-events:none;
+  z-index:0;
+  width:clamp(96px,11vmin,168px);
+  aspect-ratio:1;
+  opacity:.05;
+}
+.w-shape img{width:100%;height:100%;object-fit:contain;display:block;}
+.w-tr{right:clamp(-18px,-1.5vw,12px);bottom:clamp(58px,9vh,96px);top:auto;left:auto;}
+/* Fondo blanco */
+.slide:not(.bg-rojo):not(.bg-azul):not(.bg-dark) .w-shape{opacity:.038;}
+/* Fondo rojo: logo rojo → cuadrado se funde, letras blancas */
+.slide.bg-rojo .w-shape{opacity:.1;}
+.slide.bg-rojo .w-shape img{mix-blend-mode:screen;}
+/* Fondo azul: logo azul → cuadrado se funde */
+.slide.bg-azul .w-shape{opacity:.1;}
+.slide.bg-azul .w-shape img{mix-blend-mode:screen;}
+.slide > .w-shape{position:absolute;}
+.slide > *:not(.w-shape):not(.tag):not(.page-num){position:relative;z-index:2;}
+
+/* ============================================================
+   INDICADOR DE SECCIÓN Y TIEMPO
+   ============================================================ */
+.tag{
+  position:absolute;top:clamp(22px,3.4vh,38px);right:clamp(40px,6vw,90px);
+  z-index:5;font-family:var(--font-body);font-weight:600;
+  font-size:clamp(11px,1.05vw,14px);letter-spacing:.06em;text-transform:uppercase;
+  color:var(--gris-90);background:var(--gris-10);
+  border:1px solid var(--gris-30);border-radius:999px;
+  padding:7px 16px;display:inline-flex;align-items:center;gap:8px;
+  width:max-content;max-width:calc(100% - 80px);white-space:nowrap;
+}
+.tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--rojo);}
+.bg-rojo .tag,.bg-azul .tag,.bg-dark .tag{color:#fff;background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3);}
+.bg-rojo .tag::before{background:#fff;}
+.bg-azul .tag::before{background:var(--rojo-30);}
+
+/* numerito de slide */
+.page-num{position:absolute;bottom:clamp(20px,3vh,34px);right:clamp(40px,6vw,90px);z-index:5;
+  font-size:13px;font-weight:600;color:var(--gris-70);
+  width:max-content;white-space:nowrap;}
+.bg-rojo .page-num,.bg-azul .page-num,.bg-dark .page-num{color:rgba(255,255,255,.6);}
+
+/* ============================================================
+   TIPOGRAFÍA Y BLOQUES DE CONTENIDO
+   ============================================================ */
+.eyebrow{display:inline-block;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  font-size:clamp(12px,1.1vw,15px);color:var(--rojo);margin-bottom:18px;}
+.bg-rojo .eyebrow{color:#fff;}
+.bg-azul .eyebrow{color:var(--rojo-30);}
+h1{font-size:clamp(34px,4.6vw,68px);}
+h2{font-size:clamp(28px,3.6vw,50px);}
+h3{font-size:clamp(18px,1.7vw,24px);}
+.lead{font-size:clamp(16px,1.55vw,22px);line-height:1.5;color:var(--gris-90);max-width:60ch;margin-top:14px;}
+.bg-rojo .lead,.bg-azul .lead,.bg-dark .lead{color:rgba(255,255,255,.92);}
+.section-title h2{font-size:clamp(30px,4vw,58px);max-width:18ch;}
+
+ul.bullets{list-style:none;margin-top:24px;display:flex;flex-direction:column;gap:14px;max-width:64ch;}
+ul.bullets li{position:relative;padding-left:30px;font-size:clamp(15px,1.45vw,20px);line-height:1.45;color:var(--gris-90);}
+ul.bullets li::before{content:"";position:absolute;left:0;top:.55em;width:12px;height:12px;border-radius:3px 7px 7px 7px;background:var(--rojo);}
+ul.bullets li b,ul.bullets li strong{color:var(--negro);}
+.bg-rojo ul.bullets li,.bg-azul ul.bullets li{color:rgba(255,255,255,.92);}
+.bg-rojo ul.bullets li b,.bg-azul ul.bullets li b{color:#fff;}
+.bg-azul ul.bullets li::before{background:var(--rojo-30);}
+.bg-rojo ul.bullets li::before{background:#fff;}
+
+.muted{color:var(--gris-70);}
+.accent{color:var(--rojo);}
+.accent-azul{color:var(--azul);}
+
+/* Citas / frases ancla */
+.anchor{font-family:var(--font-head);font-weight:600;font-size:clamp(20px,2.4vw,34px);
+  line-height:1.25;max-width:24ch;margin-top:26px;}
+.anchor-full{max-width:none;width:100%;text-align:center;margin-top:clamp(22px,3vh,32px);}
+.notion-showcase{position:relative;width:100%;border-radius:16px;overflow:hidden;border:1px solid var(--gris-30);box-shadow:0 12px 32px rgba(20,20,20,.08);background:#fff;}
+.notion-showcase .hero{width:100%;height:auto;display:block;object-fit:cover;}
+.notion-showcase .notion-badge{position:absolute;right:clamp(10px,1.2vw,14px);bottom:clamp(10px,1.2vw,14px);width:clamp(34px,3.8vw,48px);height:auto;background:#fff;border-radius:10px;padding:5px;box-shadow:0 4px 14px rgba(20,20,20,.14);}
+.module-layout{margin-top:clamp(14px,2vh,20px)!important;align-items:center!important;}
+.module-img{width:100%;height:auto;max-height:clamp(240px,38vh,400px);object-fit:contain;object-position:center top;display:block;border-radius:10px;box-shadow:0 2px 4px rgba(20,20,20,.06),0 10px 28px rgba(20,20,20,.14),0 24px 48px rgba(20,20,20,.08);}
+.foot-note{margin-top:22px;font-style:italic;font-size:clamp(14px,1.3vw,18px);opacity:.8;}
+
+/* ============================================================
+   TARJETAS / GRIDS
+   ============================================================ */
+.grid{display:grid;gap:clamp(14px,1.6vw,22px);margin-top:30px;}
+.g2{grid-template-columns:repeat(2,1fr);}
+.g3{grid-template-columns:repeat(3,1fr);}
+.g4{grid-template-columns:repeat(4,1fr);}
+.g5{grid-template-columns:repeat(5,1fr);}
+
+.card{background:var(--blanco);border:1px solid var(--gris-30);border-radius:18px;
+  padding:clamp(18px,1.8vw,26px);box-shadow:0 10px 30px rgba(20,20,20,.05);
+  display:flex;flex-direction:column;gap:10px;}
+.card .ic{font-size:clamp(26px,2.6vw,38px);line-height:1;}
+.card h3{font-size:clamp(16px,1.45vw,21px);}
+.card p{font-size:clamp(13px,1.15vw,16px);line-height:1.4;color:var(--gris-90);}
+.card .num{font-family:var(--font-head);font-weight:700;color:var(--rojo);font-size:clamp(22px,2.4vw,34px);}
+.card.az{border-top:4px solid var(--azul);}
+.card.ro{border-top:4px solid var(--rojo);}
+
+/* cifras de autoridad */
+.stat-row{display:flex;flex-wrap:wrap;gap:clamp(18px,3vw,46px);margin-top:34px;}
+.stat .v{font-family:var(--font-head);font-weight:700;font-size:clamp(30px,3.6vw,52px);color:var(--rojo);line-height:1;}
+.stat .l{font-size:clamp(12px,1.1vw,15px);color:var(--gris-90);margin-top:8px;max-width:16ch;}
+.bg-azul .stat .v{color:#fff;}
+.bg-azul .stat .l{color:rgba(255,255,255,.85);}
+.slide-about{justify-content:flex-start;gap:clamp(18px,2.8vh,28px);}
+.about-top{display:grid;grid-template-columns:1fr auto;gap:clamp(28px,4vw,56px);align-items:center;width:100%;}
+.about-logo{width:clamp(150px,16vw,220px)!important;height:clamp(150px,16vw,220px)!important;}
+.about-stats{
+  flex:0 0 auto;width:100%;
+  display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,1.4vw,18px);
+  align-items:center;padding:clamp(14px,2vh,22px) clamp(18px,2.5vw,32px);
+  background:var(--gris-10);border:1px solid var(--gris-30);border-radius:16px;
+}
+.about-stats .stat{text-align:center;}
+.about-stats .stat .v{font-size:clamp(28px,3.4vw,46px);}
+.about-stats .stat .l{max-width:13ch;margin:6px auto 0;font-size:clamp(10px,.95vw,13px);line-height:1.3;}
+.inline-notion{display:inline-flex;align-items:center;gap:0.32em;vertical-align:middle;}
+.inline-notion img{height:clamp(30px,3.4vw,48px);width:auto;display:block;}
+.case-head{display:flex;align-items:center;gap:clamp(12px,1.4vw,18px);flex-wrap:wrap;}
+.case-logo{height:clamp(36px,4vw,52px);width:auto;object-fit:contain;display:block;}
+.case-grid{align-items:start;margin-top:clamp(18px,2.2vh,26px)!important;}
+.case-copy{display:flex;flex-direction:column;gap:clamp(12px,1.6vh,18px);padding-top:clamp(14px,2.4vh,28px);}
+.case-block h3{font-size:clamp(13px,1.15vw,16px);color:var(--azul);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em;}
+.case-block p{font-size:clamp(13px,1.15vw,15.5px);line-height:1.45;color:var(--gris-90);}
+.case-img{width:100%;height:auto;max-height:clamp(300px,46vh,460px);object-fit:contain;object-position:center top;display:block;border-radius:10px;box-shadow:0 2px 4px rgba(20,20,20,.06),0 10px 28px rgba(20,20,20,.14),0 24px 48px rgba(20,20,20,.08);}
+.slide-demo{justify-content:flex-start;padding-top:clamp(28px,4.5vh,48px)!important;padding-bottom:clamp(44px,6vh,56px)!important;align-items:center;text-align:center;}
+.slide-demo h2{text-align:center;max-width:none;font-size:clamp(24px,3.2vw,44px);margin-bottom:clamp(4px,0.6vh,8px);}
+.demo-stack{
+  display:flex;flex-direction:column;align-items:center;
+  gap:clamp(28px,4vh,44px);width:100%;max-width:min(1040px,96%);
+  margin-top:clamp(20px,3vh,32px);
+}
+.demo-center{
+  display:flex;flex-direction:column;align-items:center;
+  gap:clamp(18px,2.6vh,28px);width:100%;
+}
+.demo-screenshot{
+  width:min(680px,72%);height:auto;
+  max-height:clamp(240px,36vh,340px);
+  object-fit:contain;object-position:center top;
+  display:block;border-radius:10px;
+  box-shadow:0 2px 4px rgba(0,0,0,.12),0 12px 32px rgba(0,0,0,.22),0 28px 56px rgba(0,0,0,.16);
+}
+.demo-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:clamp(10px,1.2vh,13px) clamp(24px,2.6vw,34px);border-radius:999px;
+  background:#fff;color:var(--azul);
+  font-family:var(--font-body);font-weight:700;font-size:clamp(12px,1.05vw,15px);
+  text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s,color .2s;
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+.demo-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.28);background:var(--rojo);color:#fff;}
+.demo-btn .arrow{font-size:1.15em;line-height:1;}
+
+/* ============================================================
+   PLACEHOLDERS (para reemplazar logos/imágenes/métricas)
+   ============================================================ */
+.ph{border:2px dashed var(--gris-50);border-radius:14px;background:repeating-linear-gradient(45deg,var(--gris-10),var(--gris-10) 12px,#fff 12px,#fff 24px);
+  color:var(--gris-70);display:flex;align-items:center;justify-content:center;text-align:center;
+  font-size:clamp(12px,1.1vw,15px);font-weight:600;padding:18px;min-height:74px;}
+.bg-rojo .ph,.bg-azul .ph{border-color:rgba(255,255,255,.7);color:#fff;background:rgba(255,255,255,.08);}
+.ph.logo{min-height:90px;}
+.ph.logo-sq{width:clamp(100px,11vw,150px);height:clamp(100px,11vw,150px);min-height:0;border-radius:18px;aspect-ratio:1/1;}
+.logo-sq{width:clamp(100px,11vw,150px);height:clamp(100px,11vw,150px);flex:none;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:18px;}
+.logo-wall{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px;}
+.logo-wall .ph.logo{aspect-ratio:1/1;min-height:0;}
+.logo-wall.clients{grid-template-columns:repeat(7,1fr);gap:clamp(8px,1vw,14px);margin-top:20px;}
+.logo-wall.clients .ph.logo{aspect-ratio:1/1;min-height:0;padding:6px;font-size:10px;border-radius:10px;}
+.logo-wall.clients .client-logo{aspect-ratio:1/1;min-height:0;display:flex;align-items:center;justify-content:center;padding:clamp(6px,0.8vw,12px);background:#fff;border:1px solid var(--gris-30);border-radius:12px;box-shadow:0 4px 14px rgba(20,20,20,.04);}
+.logo-wall.clients .client-logo img{width:100%;height:100%;object-fit:contain;display:block;}
+.logo-img{width:clamp(150px,18vw,230px);height:auto;max-height:118px;object-fit:contain;display:block;}
+.logo-sq img{width:100%;height:100%;object-fit:contain;display:block;}
+.logo-sq:has(img),.ph.logo-sq:has(img){border:none;background:transparent;padding:0;}
+.cover-logos{display:flex;gap:clamp(24px,4vw,40px);margin:clamp(28px,4vw,40px) 0;justify-content:center;align-items:center;flex-wrap:wrap;}
+/* Las formas decorativas siempre absolutas (no empujan el contenido -> portadas centradas) */
+/* Workflow horizontal con flechas */
+.workflow{display:flex;align-items:stretch;gap:0;margin-top:26px;}
+.wf-step{flex:1;background:var(--blanco);border:1px solid var(--gris-30);border-top:4px solid var(--azul);border-radius:14px;padding:16px 12px;text-align:center;display:flex;flex-direction:column;gap:6px;align-items:center;box-shadow:0 8px 22px rgba(20,20,20,.05);}
+.wf-step.ro{border-top-color:var(--rojo);}
+.wf-step.az{border-top-color:var(--azul);}
+.wf-step .ic{font-size:clamp(22px,2.4vw,30px);line-height:1;}
+.wf-step h3{font-size:clamp(13px,1.2vw,16px);}
+.wf-step p{font-size:clamp(11px,1vw,13px);color:var(--gris-90);line-height:1.35;}
+.wf-arrow{display:flex;align-items:center;justify-content:center;color:var(--rojo);font-size:clamp(20px,2.2vw,28px);font-weight:700;padding:0 clamp(4px,0.6vw,10px);flex:0 0 auto;}
+
+/* ============================================================
+   TABLAS
+   ============================================================ */
+table.tbl{width:100%;border-collapse:separate;border-spacing:0;margin-top:22px;
+  font-size:clamp(12px,1.05vw,15.5px);background:#fff;border-radius:14px;overflow:hidden;
+  box-shadow:0 10px 30px rgba(20,20,20,.06);border:1px solid var(--gris-30);}
+table.tbl th{background:var(--azul);color:#fff;font-family:var(--font-head);font-weight:700;
+  text-align:left;padding:13px 16px;font-size:clamp(12px,1.05vw,16px);}
+table.tbl td{padding:12px 16px;border-top:1px solid var(--gris-30);vertical-align:top;line-height:1.4;color:var(--gris-90);}
+table.tbl tr:nth-child(even) td{background:var(--gris-10);}
+table.tbl td b{color:var(--negro);}
+.pill{display:inline-block;padding:3px 11px;border-radius:999px;font-weight:700;font-size:.85em;white-space:nowrap;}
+.pill.ok{background:var(--rojo-10);color:var(--rojo-70);}
+.pill.cfg{background:var(--azul-10);color:var(--azul-70);}
+.pill.int{background:#eafbe9;color:var(--hass);}
+.pill.mat{background:#fff3d6;color:#9a6b00;}
+.tbl-ans th,.tbl-ans td{font-size:clamp(11px,.98vw,14.5px);padding:10px 14px;}
+
+/* ============================================================
+   DIAGRAMAS HTML/CSS
+   ============================================================ */
+/* timeline 4 etapas */
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:36px;position:relative;}
+.timeline .step{position:relative;padding:0 16px;}
+.timeline .step .dot{width:26px;height:26px;border-radius:50%;background:var(--rojo);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-family:var(--font-head);font-size:14px;margin-bottom:16px;}
+.timeline .step::before{content:"";position:absolute;top:13px;left:0;right:0;height:3px;background:var(--gris-30);z-index:-1;}
+.timeline .step:first-child::before{left:50%;}
+.timeline .step:last-child::before{right:50%;}
+.timeline .step h3{font-size:clamp(15px,1.4vw,20px);color:var(--azul);}
+.timeline .step p{font-size:clamp(12px,1.05vw,15px);color:var(--gris-90);margin-top:8px;line-height:1.4;}
+
+/* gantt */
+.gantt{margin-top:26px;display:flex;flex-direction:column;gap:10px;}
+.gantt .weeks{display:grid;grid-template-columns:160px repeat(14,1fr);font-size:10px;color:var(--gris-70);font-weight:600;}
+.gantt .weeks span{text-align:center;}
+.gantt .row{display:grid;grid-template-columns:160px repeat(14,1fr);align-items:center;gap:0;}
+.gantt .row .name{font-size:clamp(12px,1.1vw,15px);font-weight:600;color:var(--negro);}
+.gantt .bar{height:22px;border-radius:7px;grid-column-end:span var(--span);grid-column-start:var(--start);
+  display:flex;align-items:center;padding:0 10px;color:#fff;font-size:11px;font-weight:700;white-space:nowrap;}
+.b-disc{background:var(--azul);}
+.b-mig{background:var(--azul-30);color:#1a1a1a;}
+.b-impl{background:var(--rojo);}
+.b-cap{background:var(--rojo-30);color:#5a0018;}
+.milestone{margin-top:14px;display:inline-flex;align-items:center;gap:10px;background:var(--rojo-10);
+  border-left:4px solid var(--rojo);padding:10px 16px;border-radius:8px;font-size:clamp(12px,1.1vw,15px);font-weight:600;color:var(--rojo-70);}
+
+/* slide plan interactivo */
+.slide-plan{
+  justify-content:flex-start;gap:clamp(14px,2vh,22px);
+  padding-top:clamp(28px,4.5vh,48px)!important;padding-bottom:clamp(32px,4.5vh,44px)!important;
+}
+.slide-plan h2{margin-bottom:0;}
+.plan-chips{display:flex;flex-wrap:wrap;gap:clamp(8px,1vw,10px);margin-top:0;}
+.plan-chip{
+  border:1px solid var(--gris-30);background:var(--gris-10);color:var(--gris-90);
+  padding:clamp(8px,1.1vh,10px) clamp(16px,1.5vw,20px);border-radius:999px;
+  font-weight:600;font-size:clamp(11px,1.05vw,13px);cursor:pointer;font-family:var(--font-body);
+  transition:background .2s,color .2s,border-color .2s,opacity .2s;
+}
+.plan-chip:hover:not(.active){border-color:var(--gris-50);background:#fff;}
+.plan-chip.active{background:var(--rojo);color:#fff;border-color:var(--rojo);}
+.plan-gantt{margin-top:0;gap:clamp(10px,1.4vh,14px);flex:0 0 auto;}
+.plan-gantt .weeks{grid-template-columns:118px repeat(14,1fr);font-size:clamp(10px,.95vw,12px);padding-bottom:6px;}
+.plan-gantt .row{grid-template-columns:118px repeat(14,1fr);min-height:clamp(38px,5.2vh,48px);align-items:center;}
+.plan-gantt .row .name{font-size:clamp(11px,1.05vw,14px);padding-right:8px;}
+.plan-gantt .plan-bar{
+  height:clamp(30px,4.2vh,38px);border:none;cursor:pointer;font-family:var(--font-body);
+  font-size:clamp(10px,1vw,12px);
+  transition:opacity .25s,transform .2s,box-shadow .25s;
+}
+.plan-gantt .plan-bar.dim{opacity:.28;}
+.plan-gantt .plan-bar.active{opacity:1;box-shadow:0 0 0 2px var(--negro);transform:scaleY(1.06);z-index:1;}
+.plan-gantt .plan-bar:hover:not(.active){opacity:.85;}
+.plan-detail{
+  flex:1 1 auto;margin-top:0;background:var(--gris-10);border:1px solid var(--gris-30);
+  border-radius:14px;padding:clamp(16px,2.2vw,24px);padding-bottom:clamp(18px,2.4vh,26px);
+  min-height:clamp(150px,19vh,210px);
+  display:flex;flex-direction:column;justify-content:flex-start;
+}
+.plan-detail-head{margin-bottom:10px;}
+.plan-detail-head h3{font-size:clamp(15px,1.35vw,19px);color:var(--azul);display:inline;margin-right:10px;}
+.plan-detail .plan-range{font-size:clamp(12px,1.05vw,14px);font-weight:700;color:var(--rojo);}
+.plan-detail .plan-lead{font-size:clamp(12px,1.1vw,14.5px);color:var(--gris-90);font-style:italic;margin:8px 0 10px;line-height:1.4;}
+.plan-activities{list-style:none;display:flex;flex-direction:column;gap:clamp(6px,.8vh,8px);}
+.plan-activities li{font-size:clamp(11px,1.02vw,13.5px);line-height:1.38;color:var(--gris-90);padding-left:16px;position:relative;}
+.plan-activities li::before{content:"";position:absolute;left:0;top:.55em;width:6px;height:6px;border-radius:50%;background:var(--rojo);}
+.plan-activities li b{color:var(--negro);}
+.plan-close{
+  margin-top:clamp(14px,1.8vh,18px);padding-top:clamp(12px,1.5vh,16px);
+  border-top:1px solid var(--gris-30);
+  font-size:clamp(11px,.98vw,13px);font-weight:600;color:var(--rojo-70);line-height:1.4;
+}
+
+/* flujos demo */
+.flow-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:30px;}
+.flow-cards .fc{background:#fff;border-radius:20px;border:1px solid var(--gris-30);padding:26px 22px;
+  box-shadow:0 12px 34px rgba(20,20,20,.07);display:flex;flex-direction:column;gap:12px;position:relative;}
+.flow-cards .fc .big{font-size:46px;line-height:1;}
+.flow-cards .fc .step-n{position:absolute;top:18px;right:20px;font-family:var(--font-head);font-weight:700;color:var(--gris-30);font-size:34px;}
+.flow-cards .fc h3{font-size:clamp(16px,1.5vw,21px);}
+.flow-cards .fc p{font-size:clamp(13px,1.15vw,16px);color:var(--gris-90);line-height:1.45;}
+.flow-cards.demo-flows-bottom{margin-top:0;gap:clamp(12px,1.5vw,16px);max-width:100%;width:100%;}
+.flow-cards.demo-flows-bottom .fc{
+  display:grid;grid-template-columns:auto 1fr auto;grid-template-rows:auto auto;
+  column-gap:clamp(12px,1.4vw,16px);row-gap:clamp(4px,.6vh,6px);align-items:center;
+  padding:clamp(14px,2vh,18px) clamp(14px,1.6vw,18px);
+  min-height:clamp(72px,10vh,88px);
+  border-radius:12px;gap:0;box-shadow:0 6px 18px rgba(20,20,20,.06);
+}
+.flow-cards.demo-flows-bottom .fc .big{grid-row:1/-1;grid-column:1;font-size:clamp(24px,2.6vw,30px);line-height:1;}
+.flow-cards.demo-flows-bottom .fc h3{grid-column:2;grid-row:1;font-size:clamp(12px,1.1vw,14px);margin:0;line-height:1.25;color:var(--azul);}
+.flow-cards.demo-flows-bottom .fc p{grid-column:2;grid-row:2;font-size:clamp(10.5px,.95vw,12.5px);line-height:1.35;margin:0;color:var(--gris-90);}
+.flow-cards.demo-flows-bottom .fc .step-n{position:static;grid-column:3;grid-row:1/-1;align-self:center;font-size:clamp(18px,2vw,24px);}
+
+/* módulos */
+.mods{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:34px;}
+.mod{background:#fff;border:1px solid var(--gris-30);border-radius:16px;padding:22px 16px;text-align:center;
+  box-shadow:0 8px 24px rgba(20,20,20,.05);display:flex;flex-direction:column;gap:12px;align-items:center;}
+.mod .circ{width:62px;height:62px;border-radius:50%;background:var(--azul-10);display:flex;align-items:center;justify-content:center;font-size:30px;}
+.mod:nth-child(odd) .circ{background:var(--rojo-10);}
+.mod h3{font-size:clamp(13px,1.2vw,17px);line-height:1.2;}
+.mod .n{font-size:12px;font-weight:700;color:var(--rojo);letter-spacing:.05em;}
+
+/* team */
+.team{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:30px;}
+.team .member{text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center;}
+.team .avatar{width:clamp(120px,13vw,172px);height:clamp(120px,13vw,172px);border-radius:50%;border:2px solid var(--gris-30);
+  background:var(--gris-10);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gris-70);font-weight:600;text-align:center;padding:8px;overflow:hidden;}
+.team .avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+.team .member h3{font-size:clamp(14px,1.3vw,18px);}
+.team .member p{font-size:clamp(12px,1.05vw,15px);color:var(--gris-90);}
+
+/* precios */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:34px;}
+.price{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.28);border-radius:18px;padding:26px;}
+.price .k{font-size:clamp(13px,1.2vw,16px);opacity:.85;font-weight:600;}
+.price .v{font-family:var(--font-head);font-weight:700;font-size:clamp(24px,2.8vw,40px);margin-top:10px;}
+.price .u{font-size:13px;opacity:.7;}
+
+/* ============================================================
+   NAVEGACIÓN
+   ============================================================ */
+.nav-arrow{position:fixed;top:50%;transform:translateY(-50%);z-index:50;
+  width:50px;height:50px;border-radius:50%;border:none;cursor:pointer;
+  background:rgba(20,20,20,.32);color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;
+  transition:background .2s,opacity .2s;backdrop-filter:blur(4px);}
+.nav-arrow:hover{background:var(--rojo);}
+.nav-arrow.prev{left:22px;}
+.nav-arrow.next{right:22px;}
+.nav-arrow:disabled{opacity:.18;cursor:default;}
+
+.progress{position:fixed;bottom:0;left:0;height:5px;background:var(--rojo);z-index:60;transition:width .45s ease;}
+
+.dots{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:55;display:flex;gap:7px;
+  background:rgba(20,20,20,.28);padding:8px 12px;border-radius:999px;backdrop-filter:blur(4px);max-width:90vw;flex-wrap:wrap;justify-content:center;}
+.dots button{width:9px;height:9px;border-radius:50%;border:none;background:rgba(255,255,255,.45);cursor:pointer;padding:0;}
+.dots button.active{background:#fff;transform:scale(1.35);}
+
+@media (max-width:760px){
+  .g3,.g4,.g5,.mods,.flow-cards,.team,.price-grid,.logo-wall{grid-template-columns:repeat(2,1fr)!important;}
+  .flow-cards.demo-flows-bottom{grid-template-columns:1fr!important;}
+  .demo-screenshot{width:92%;max-height:clamp(200px,32vh,280px);}
+  .about-stats{grid-template-columns:repeat(2,1fr)!important;padding:14px 16px;}
+  .about-top{grid-template-columns:1fr;}
+  .about-logo{margin:0 auto;}
+  .timeline{grid-template-columns:repeat(2,1fr);gap:24px;}
+  .timeline .step::before{display:none;}
+  .gantt{overflow-x:auto;}
+}
+</style>
+</head>
+<body>
+
+<div class="deck">
+  <div class="track" id="track">
+
+  <!-- ===================================================== -->
+  <!-- Slide 1 — Portada -->
+  <!-- ===================================================== -->
+  <section class="slide" style="align-items:center;text-align:center">
+    <span class="eyebrow">Licitación CRM · Corpohass</span>
+    <h1>Plataforma CRM para Corpohass<br><span style="font-weight:600">construida sobre <span class="inline-notion">Notion<img src="assets/clientes/Notion-logo.png" alt="Notion"></span></span></h1>
+    <div class="cover-logos">
+      <div class="logo-sq"><img src="https://make-with-notion.s3.us-east-2.amazonaws.com/LOGO-23.png" alt="The Workflow Company"></div>
+      <div class="logo-sq"><img src="assets/clientes/logo_corpohass.webp" alt="Corpohass"></div>
+    </div>
+    <p class="foot-note">Presentado por The Workflow Company · 23 de junio 2026</p>
+    <span class="tag">Apertura</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide — Agenda -->
+  <section class="slide">
+    <span class="eyebrow">Agenda</span>
+    <h2>Lo que veremos hoy</h2>
+    <p class="lead">Estructura de la sustentación · 40 minutos.</p>
+    <div class="grid g2" style="margin-top:26px">
+      <div class="card ro"><div class="num">01</div><h3>Empresa y equipo</h3><p>Quiénes somos y por qué TWC · 5 min</p></div>
+      <div class="card az"><div class="num">02</div><h3>Funcionalidades de la solución</h3><p>El CRM en 4 módulos + demo en vivo · 15 min</p></div>
+      <div class="card ro"><div class="num">03</div><h3>Plan de implementación y metodología</h3><p>4 etapas y cronograma · 10 min</p></div>
+      <div class="card az"><div class="num">04</div><h3>Esquema de servicio y soporte + ANS</h3><p>Modelo mensual, ANS y gobernanza · 10 min</p></div>
+    </div>
+    <span class="tag">Agenda</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- ===================================================== -->
+  <!-- SECCIÓN 1 · Empresa y equipo — 5 min -->
+  <!-- ===================================================== -->
+
+  <!-- Portada Sección 1 -->
+  <section class="slide bg-rojo" style="align-items:center;text-align:center">
+    <div class="w-shape w-tr"><img src="https://make-with-notion.s3.us-east-2.amazonaws.com/LOGO-22+(1).png" alt=""></div>
+    <span class="eyebrow">Sección 1 · 5 min</span>
+    <h1>Empresa y equipo</h1>
+    <p class="lead" style="margin:14px auto 0">Quiénes somos y por qué TWC.</p>
+    <span class="tag">Sección 1</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide — Quiénes somos -->
+  <section class="slide slide-about">
+    <span class="eyebrow">Sección 1 · Empresa y equipo</span>
+    <h2>Quiénes somos</h2>
+    <div class="about-top">
+      <ul class="bullets" style="margin-top:0">
+        <li><b>The Workflow Company (TWC)</b> ayuda a equipos y empresas de Latinoamérica a ser <b>más eficientes, más autónomos y más productivos</b> con los sistemas y herramientas correctas.</li>
+        <li>Consultora boutique y <b>Notion Consulting Partner certificado</b>: no improvisamos sobre la herramienta, construimos soluciones reales que el equipo adopta.</li>
+      </ul>
+      <div class="logo-sq about-logo"><img src="https://make-with-notion.s3.us-east-2.amazonaws.com/LOGO-23.png" alt="The Workflow Company"></div>
+    </div>
+    <div class="about-stats">
+      <div class="stat"><div class="v">+35</div><div class="l">sistemas implementados</div></div>
+      <div class="stat"><div class="v">+5</div><div class="l">países en Latam</div></div>
+      <div class="stat"><div class="v">6</div><div class="l">certificaciones</div></div>
+      <div class="stat"><div class="v">+750</div><div class="l">comunidad Notion Colombia</div></div>
+      <div class="stat"><div class="v">#1</div><div class="l">primeros certificados en Colombia</div></div>
+    </div>
+    <span class="tag">Sección 1 · 5 min</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide — Clientes con los que hemos trabajado -->
+  <section class="slide">
+    <span class="eyebrow">Sección 1 · Nuestros clientes</span>
+    <h2>Con quiénes hemos trabajado</h2>
+    <p class="lead">Equipos que ya operan sobre Notion con TWC.</p>
+    <div class="logo-wall clients">
+      <div class="client-logo"><img src="assets/clientes/1.svg" alt="Cliente 1"></div>
+      <div class="client-logo"><img src="assets/clientes/2.svg" alt="Cliente 2"></div>
+      <div class="client-logo"><img src="assets/clientes/3.svg" alt="Cliente 3"></div>
+      <div class="client-logo"><img src="assets/clientes/4.svg" alt="Cliente 4"></div>
+      <div class="client-logo"><img src="assets/clientes/5.svg" alt="Cliente 5"></div>
+      <div class="client-logo"><img src="assets/clientes/6.svg" alt="Cliente 6"></div>
+      <div class="client-logo"><img src="assets/clientes/7.svg" alt="Cliente 7"></div>
+      <div class="client-logo"><img src="assets/clientes/8.svg" alt="Cliente 8"></div>
+      <div class="client-logo"><img src="assets/clientes/9.svg" alt="Cliente 9"></div>
+      <div class="client-logo"><img src="assets/clientes/10.svg" alt="Cliente 10"></div>
+      <div class="client-logo"><img src="assets/clientes/11.svg" alt="Cliente 11"></div>
+      <div class="client-logo"><img src="assets/clientes/12.svg" alt="Cliente 12"></div>
+      <div class="client-logo"><img src="assets/clientes/13.svg" alt="Cliente 13"></div>
+      <div class="client-logo"><img src="assets/clientes/14.svg" alt="Cliente 14"></div>
+    </div>
+    <div style="margin-top:20px;background:var(--rojo-10);border:1px solid var(--rojo-30);border-radius:12px;padding:14px 18px;text-align:center;font-size:clamp(13px,1.3vw,16px);color:var(--negro)">⭐ <b>Hemos trabajado con diferentes industrias</b>, en <b>más de 5 países</b> del mundo y con retos operativos muy distintos.</div>
+    <span class="tag">Sección 1 · 5 min</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide 3 — Diferenciadores clave -->
+  <section class="slide">
+    <span class="eyebrow">Sección 1 · Empresa y equipo</span>
+    <h2>Nuestros diferenciadores clave</h2>
+    <div class="grid g4">
+      <div class="card ro"><div class="num">01</div><h3>Notion Consulting Partner + certificaciones</h3><p>No improvisamos sobre la herramienta.</p></div>
+      <div class="card az"><div class="num">02</div><h3>IA incluida sin costo adicional</h3><p>El CRM nace con IA; no es un add-on caro.</p></div>
+      <div class="card ro"><div class="num">03</div><h3>Analytics TWC — adopción garantizada</h3><p>“El éxito de un CRM no se mide el día del go-live, sino a los 90 días; nosotros lo medimos.”</p></div>
+      <div class="card az"><div class="num">04</div><h3>+300 usuarios del portal incluidos</h3><p>Sin costo + condición ESAL.</p></div>
+    </div>
+    <span class="tag">Sección 1 · 5 min</span>
+    <span class="page-num">03 / 22</span>
+  </section>
+
+  <!-- Slide — Caso Xertify -->
+  <section class="slide">
+    <span class="eyebrow">Sección 1 · Caso destacado 1</span>
+    <h2 class="case-head"><img src="assets/clientes/xertify.jpeg" alt="Xertify" class="case-logo"> Xertify</h2>
+    <div class="grid g2 case-grid">
+      <div class="case-copy">
+        <div class="case-block">
+          <h3>Quién es el cliente</h3>
+          <p>Empresa de tecnología educativa que está revolucionando las credenciales y certificados digitales.</p>
+        </div>
+        <div class="case-block">
+          <h3>Qué hicimos en Notion</h3>
+          <p>Diseñamos e implementamos su CRM comercial sobre Notion: auditoría del CRM existente, estructuración de las bases de clientes y contactos, y creación de la base de Oportunidades (pipeline). Sumamos vistas, filtros y gráficos para gestionar el ciclo comercial y dar seguimiento a clientes.</p>
+        </div>
+        <div class="case-block">
+          <h3>Impacto</h3>
+          <p>Pasaron de hojas de cálculo dispersas a un CRM real en Notion (no solo dashboards): pipeline visible, datos conectados entre clientes, contactos y oportunidades, y capacidad de tomar decisiones comerciales basadas en su propia data.</p>
+        </div>
+      </div>
+      <img src="assets/clientes/screenshot-xertify.avif" alt="Workspace de Xertify en Notion" class="case-img">
+    </div>
+    <span class="tag">Sección 1 · 5 min</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide — Caso Viajero -->
+  <section class="slide">
+    <span class="eyebrow">Sección 1 · Caso destacado 2</span>
+    <h2 class="case-head"><img src="assets/clientes/viajero.jpg" alt="Viajero Hostels" class="case-logo"> Viajero Hostels</h2>
+    <div class="grid g2 case-grid">
+      <div class="case-copy">
+        <div class="case-block">
+          <h3>Quién es el cliente</h3>
+          <p>Cadena de hostels con ~30 propiedades en 10 países de Latinoamérica (Colombia, Perú, México, Ecuador, etc.). Equipo distribuido, mayoritariamente operativo y con baja madurez digital.</p>
+        </div>
+        <div class="case-block">
+          <h3>Qué hicimos en Notion</h3>
+          <p>Implementación de Notion Enterprise a nivel compañía (≈132 licencias): diagnóstico por áreas, diseño de un espacio de trabajo centralizado, sistema estandarizado de seguimiento de tareas y proyectos, dashboards de KPIs/OKRs (antes en Excel) y un plan de adopción por niveles de usuario (directores, líderes, operativos).</p>
+        </div>
+        <div class="case-block">
+          <h3>Impacto</h3>
+          <p>Migración de información dispersa en Excel, WhatsApp y Teams hacia un único centro de trabajo; visibilidad en tiempo real del avance de tareas, menos reprocesos y dependencia de seguimiento manual, y una base estandarizada de procesos replicable entre las 30 locaciones.</p>
+        </div>
+      </div>
+      <img src="assets/clientes/viajero_ss.svg" alt="Workspace de Viajero Hostels en Notion" class="case-img">
+    </div>
+    <span class="tag">Sección 1 · 5 min</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide 7 — Equipo del proyecto -->
+  <section class="slide">
+    <span class="eyebrow">Sección 1 · El equipo</span>
+    <h2>El equipo del proyecto</h2>
+    <div class="team">
+      <div class="member card">
+        <div class="avatar"><img src="assets/equipo/Sebastian_Martinez.svg" alt="Sebastian Martinez"></div>
+        <h3>Sebastian Martinez</h3>
+        <p style="color:var(--rojo);font-weight:600;font-size:14px;margin-top:-2px">Líder del proyecto</p>
+        <p class="muted" style="font-size:13px">Define la arquitectura del CRM y la visión técnica de la solución.</p>
+      </div>
+      <div class="member card">
+        <div class="avatar"><img src="assets/equipo/Roxana_rodriguez.svg" alt="Roxana Rodriguez"></div>
+        <h3>Roxana Rodriguez</h3>
+        <p style="color:var(--rojo);font-weight:600;font-size:14px;margin-top:-2px">Líder de implementación</p>
+        <p class="muted" style="font-size:13px">Construye y configura el CRM módulo a módulo en Notion.</p>
+      </div>
+      <div class="member card">
+        <div class="avatar"><img src="assets/equipo/Camilo_medina.svg" alt="Camilo Medina"></div>
+        <h3>Camilo Medina</h3>
+        <p style="color:var(--rojo);font-weight:600;font-size:14px;margin-top:-2px">Ingeniero de integraciones</p>
+        <p class="muted" style="font-size:13px">Conecta el ecosistema y automatiza procesos con inteligencia artificial.</p>
+      </div>
+      <div class="member card">
+        <div class="avatar"><img src="assets/equipo/Aleja_henao.svg" alt="Alejandra Henao"></div>
+        <h3>Alejandra Henao</h3>
+        <p style="color:var(--rojo);font-weight:600;font-size:14px;margin-top:-2px">Líder de adopción y capacitación</p>
+        <p class="muted" style="font-size:13px">Acompaña la capacitación y la gestión del cambio del equipo.</p>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:18px;font-size:14px">🇨🇴 Todo el equipo en español, horario Colombia (GMT-5).</p>
+    <span class="tag">Sección 1 · 5 min</span>
+    <span class="page-num">07 / 22</span>
+  </section>
+
+  <!-- ===================================================== -->
+  <!-- SECCIÓN 2 · Funcionalidades — 15 min -->
+  <!-- ===================================================== -->
+
+  <!-- Portada Sección 2 -->
+  <section class="slide bg-azul" style="align-items:center;text-align:center">
+    <div class="w-shape w-tr"><img src="https://make-with-notion.s3.us-east-2.amazonaws.com/LOGO-24.png" alt=""></div>
+    <span class="eyebrow">Sección 2 · 15 min</span>
+    <h1>Funcionalidades de la solución</h1>
+    <p class="lead" style="margin:14px auto 0">El CRM en 4 módulos + demo en vivo.</p>
+    <span class="tag">Sección 2</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide — ¿Por qué Notion? -->
+  <section class="slide">
+    <span class="eyebrow">Sección 2 · La plataforma</span>
+    <h2>¿Por qué Notion?</h2>
+    <div class="grid g2" style="align-items:center;margin-top:18px">
+      <ul class="bullets" style="margin-top:0">
+        <li><b>Todo en uno:</b> CRM, bases de datos, proyectos, dashboards e IA en una sola plataforma — sin fragmentar la operación del gremio.</li>
+        <li><b>Flexible y adaptable:</b> se moldea a los procesos de Corpohass, no al revés; evoluciona con el negocio sin reimplementar desde cero.</li>
+        <li><b>Versátil por diseño:</b> bases relacionales, vistas, automatizaciones y portales conviven en el mismo espacio de trabajo.</li>
+        <li><b>Encaje con Corpohass:</b> centraliza el ciclo del afiliado, la operación interna y la relación con +300 afiliados en un solo sistema operativo.</li>
+      </ul>
+      <div class="notion-showcase">
+        <img src="assets/Notion_for_desktop_-_hero.png" alt="Captura de Notion" class="hero">
+        <img src="assets/clientes/Notion-logo.png" alt="Notion" class="notion-badge">
+      </div>
+    </div>
+    <p class="anchor accent anchor-full">“Una plataforma que crece con Corpohass: hoy CRM, mañana el sistema operativo del gremio.”</p>
+    <span class="tag">Sección 2 · 15 min</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide — La solución en 4 módulos -->
+  <section class="slide">
+    <span class="eyebrow">Sección 2 · Funcionalidades de la solución</span>
+    <h2>La solución en 4 módulos</h2>
+    <p class="lead">Un CRM en Notion que cubre el ciclo completo del afiliado. <b class="accent">158/158 requerimientos cumplidos.</b></p>
+    <div class="mods">
+      <div class="mod"><div class="circ">🌱</div><div class="n">MÓDULO 1</div><h3>Atraer y afiliar</h3></div>
+      <div class="mod"><div class="circ">👤</div><div class="n">MÓDULO 2</div><h3>Vista 360°</h3></div>
+      <div class="mod"><div class="circ">📊</div><div class="n">MÓDULO 3</div><h3>Atender y medir</h3></div>
+      <div class="mod"><div class="circ">🌐</div><div class="n">MÓDULO 4</div><h3>Portal de afiliados</h3></div>
+    </div>
+    <span class="tag">Sección 2 · 15 min</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide — Módulo 1 -->
+  <section class="slide">
+    <span class="eyebrow">Sección 2 · Módulo 1</span>
+    <h2><span class="accent">🌱</span> Atraer y afiliar</h2>
+    <div class="grid g2 module-layout" style="align-items:center">
+      <ul class="bullets" style="margin-top:0">
+        <li>Captura de prospectos (web, eventos, referidos).</li>
+        <li>Pipeline visual de afiliación por etapas.</li>
+        <li>Flujo automatizado de prospecto → afiliado activo.</li>
+        <li>Control de documentos.</li>
+      </ul>
+      <img src="assets/ss - solucion notion/captar y afiliar.svg" alt="Módulo Atraer y afiliar — Corpohass" class="module-img">
+    </div>
+    <p class="anchor accent anchor-full">“Un proceso de afiliación ordenado y sin que nada se pierda.”</p>
+    <span class="tag">Sección 2 · 15 min</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide — Módulo 2 -->
+  <section class="slide">
+    <span class="eyebrow">Sección 2 · Módulo 2</span>
+    <h2><span class="accent-azul">👤</span> Vista 360° del afiliado</h2>
+    <div class="grid g2 module-layout" style="align-items:center">
+      <ul class="bullets" style="margin-top:0">
+        <li>Ficha única: datos de la empresa, sedes/fincas y contactos.</li>
+        <li>Historial de interacciones y eventos.</li>
+        <li>Servicios y estado de cartera.</li>
+      </ul>
+      <img src="assets/ss - solucion notion/vista 360.svg" alt="Módulo Vista 360° — Corpohass" class="module-img">
+    </div>
+    <p class="anchor accent anchor-full">“Toda la relación con el afiliado en una sola pantalla.”</p>
+    <span class="tag">Sección 2 · 15 min</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide — Módulo 3 -->
+  <section class="slide">
+    <span class="eyebrow">Sección 2 · Módulo 3</span>
+    <h2><span class="accent-azul">📊</span> Atender y medir</h2>
+    <div class="grid g2 module-layout" style="align-items:center">
+      <ul class="bullets" style="margin-top:0">
+        <li>Gestión de servicios y tareas internas con ANS internos.</li>
+        <li>Eventos: inscripción vs. asistencia.</li>
+        <li>Encuestas de satisfacción.</li>
+        <li>Dashboards e indicadores por área.</li>
+      </ul>
+      <img src="assets/ss - solucion notion/indicadores y medir.svg" alt="Módulo Atender y medir — Corpohass" class="module-img">
+    </div>
+    <p class="anchor accent anchor-full">“Medir el servicio al afiliado y mejorar con datos.”</p>
+    <span class="tag">Sección 2 · 15 min</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide — Módulo 4 -->
+  <section class="slide">
+    <span class="eyebrow">Sección 2 · Módulo 4</span>
+    <h2><span class="accent">🌐</span> Portal de afiliados + ecosistema</h2>
+    <div class="grid g2 module-layout" style="align-items:center">
+      <ul class="bullets" style="margin-top:0">
+        <li><b>Portal para +300 afiliados:</b> consulta de estado, inscripción a eventos, actualización de datos.</li>
+        <li><b>Integraciones del ecosistema:</b> sistema contable (cartera), Mailchimp, SharePoint, Teams, Mapa Hass, plataforma de indicadores, listas restrictivas/compliance, WhatsApp/SMS.</li>
+        <li><b>Motor de integraciones y automatización:</b> Notion Workers + n8n / Make.</li>
+      </ul>
+      <img src="assets/ss - solucion notion/portales.svg" alt="Módulo Portal de afiliados — Corpohass" class="module-img">
+    </div>
+    <p class="anchor accent anchor-full">“El CRM no vive aislado: conversa con todo su ecosistema.”</p>
+    <span class="tag">Sección 2 · 15 min</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide — Tabla de cumplimiento -->
+  <section class="slide">
+    <span class="eyebrow">Sección 2 · Cumplimiento</span>
+    <h2>Qué cumplimos y qué no</h2>
+    <table class="tbl">
+      <thead><tr><th style="width:24%">Ámbito</th><th style="width:20%">Estado</th><th>Nota</th></tr></thead>
+      <tbody>
+        <tr><td><b>Listo de fábrica (nativo Notion)</b></td><td><span class="pill ok">Cumple</span></td><td>Bases relacionales, vistas, búsqueda, permisos, apps móviles, IA, exportación, seguridad enterprise (SSO/MFA, cifrado, ISO 27001 / SOC 2).</td></tr>
+        <tr><td><b>Configurado a medida por TWC</b></td><td><span class="pill cfg">Cumple (configuración)</span></td><td>Modelo de afiliados, ciclo de vida, eventos, servicios/ANS, encuestas, portal.</td></tr>
+        <tr><td><b>Vía integraciones</b></td><td><span class="pill int">Cumple (integración)</span></td><td>Sistema contable, Mailchimp, SharePoint/Teams, Mapa Hass, indicadores, compliance.</td></tr>
+        <tr><td><b>Consideraciones honestas</b></td><td><span class="pill mat">Cumple con matiz</span></td><td>Mailchimp sigue siendo el motor de envío; datos en infraestructura del fabricante (EE.UU.) cubiertos con DPA + Ley 1581; integraciones como Mapa Hass/indicadores dependen de que esos sistemas expongan API; IA predictiva de churn en fase inicial con heurísticas + IA de Notion.</td></tr>
+      </tbody>
+    </table>
+    <p class="anchor accent" style="font-size:clamp(16px,1.7vw,24px);margin-top:18px">“158/158 cumplidos. Lo contamos con transparencia: declaramos los supuestos.”</p>
+    <span class="tag">Sección 2 · 15 min</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide — Demo en vivo: 3 flujos -->
+  <section class="slide bg-azul slide-demo">
+    <div class="w-shape w-tr"><img src="https://make-with-notion.s3.us-east-2.amazonaws.com/LOGO-24.png" alt=""></div>
+    <span class="eyebrow">Sección 2 · Demo en vivo</span>
+    <h2>Una demostración en vivo: del prospecto a la decisión</h2>
+    <div class="demo-stack">
+      <div class="demo-center">
+        <img src="assets/clientes/corpohass_demo.svg" alt="Demo CRM Corpohass en Notion" class="demo-screenshot">
+        <a class="demo-btn" href="https://theworkflowcompany.notion.site/demo-corpohass-hub?source=copy_link" target="_blank" rel="noopener noreferrer">Abrir demo en vivo <span class="arrow">→</span></a>
+      </div>
+      <div class="flow-cards demo-flows-bottom">
+        <div class="fc"><span class="step-n">1</span><div class="big">🌱</div><h3>Captar y afiliar</h3><p>Pipeline + automatización prospecto → afiliado activo.</p></div>
+        <div class="fc"><span class="step-n">2</span><div class="big">👤</div><h3>Vista 360° del afiliado</h3><p>Ficha consolidada con datos, sedes/fincas, historial, eventos, servicios y cartera.</p></div>
+        <div class="fc"><span class="step-n">3</span><div class="big">📊</div><h3>Decidir con datos</h3><p>Dashboards de dirección del propio CRM con indicadores del gremio en tiempo real.</p></div>
+      </div>
+    </div>
+    <span class="tag">Sección 2 · 15 min</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- ===================================================== -->
+  <!-- SECCIÓN 3 · Plan de implementación — 10 min -->
+  <!-- ===================================================== -->
+
+  <!-- Portada Sección 3 -->
+  <section class="slide bg-rojo" style="align-items:center;text-align:center">
+    <div class="w-shape w-tr"><img src="https://make-with-notion.s3.us-east-2.amazonaws.com/LOGO-22+(1).png" alt=""></div>
+    <span class="eyebrow">Sección 3 · 10 min</span>
+    <h1>Plan de implementación y metodología</h1>
+    <p class="lead" style="margin:14px auto 0">Cómo lo construimos: 4 etapas y cronograma.</p>
+    <span class="tag">Sección 3</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide — Plan interactivo: 4 etapas + cronograma -->
+  <section class="slide slide-plan" id="slide-plan">
+    <span class="eyebrow">Sección 3 · Plan de implementación</span>
+    <h2>Cómo implementamos: 4 etapas en ~14 semanas</h2>
+
+    <div class="plan-chips" role="tablist" aria-label="Etapas del proyecto">
+      <button type="button" class="plan-chip active" data-stage="0" role="tab" aria-selected="true">1 Discovery</button>
+      <button type="button" class="plan-chip" data-stage="1" role="tab" aria-selected="false">2 Implementación</button>
+      <button type="button" class="plan-chip" data-stage="2" role="tab" aria-selected="false">3 Migración</button>
+      <button type="button" class="plan-chip" data-stage="3" role="tab" aria-selected="false">4 Capacitación</button>
+    </div>
+
+    <div class="gantt plan-gantt" role="presentation">
+      <div class="weeks"><span class="name"></span><span>S1</span><span>S2</span><span>S3</span><span>S4</span><span>S5</span><span>S6</span><span>S7</span><span>S8</span><span>S9</span><span>S10</span><span>S11</span><span>S12</span><span>S13</span><span>S14</span></div>
+      <div class="row"><span class="name">Discovery</span><button type="button" class="bar b-disc plan-bar active" style="--start:2;--span:3" data-stage="0" title="Semanas 1–3">Discovery</button></div>
+      <div class="row"><span class="name">Implementación</span><button type="button" class="bar b-impl plan-bar dim" style="--start:4;--span:7" data-stage="1" title="Semanas 3–9">Implementación</button></div>
+      <div class="row"><span class="name">Migración</span><button type="button" class="bar b-mig plan-bar dim" style="--start:9;--span:4" data-stage="2" title="Semanas 8–11">Migración</button></div>
+      <div class="row"><span class="name">Capacitación</span><button type="button" class="bar b-cap plan-bar dim" style="--start:12;--span:4" data-stage="3" title="Semanas 11–14">Capacitación</button></div>
+    </div>
+
+    <div class="plan-detail" id="plan-detail" role="tabpanel" aria-live="polite"></div>
+
+    <span class="tag">Sección 3 · 10 min</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- ===================================================== -->
+  <!-- SECCIÓN 4 · Servicio, soporte y ANS — 10 min -->
+  <!-- ===================================================== -->
+
+  <!-- Portada Sección 4 -->
+  <section class="slide bg-azul" style="align-items:center;text-align:center">
+    <div class="w-shape w-tr"><img src="https://make-with-notion.s3.us-east-2.amazonaws.com/LOGO-24.png" alt=""></div>
+    <span class="eyebrow">Sección 4 · 10 min</span>
+    <h1>Servicio, soporte y ANS</h1>
+    <p class="lead" style="margin:14px auto 0">Esquema de servicio mensual, ANS y gobernanza.</p>
+    <span class="tag">Sección 4</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide — Modelo de servicio mensual -->
+  <section class="slide" style="justify-content:flex-start;padding-top:clamp(46px,8vh,88px)">
+    <span class="eyebrow">Sección 4 · Servicio y soporte</span>
+    <h2>Cómo funciona el modelo de servicio mensual</h2>
+    <p class="lead" style="margin-top:6px">Un ciclo mensual continuo: soporte, evolución y adopción.</p>
+    <div class="grid g5" style="margin-top:26px">
+      <div class="card ro"><div class="ic">🎙️</div><h3>Mesa de ayuda</h3><p>Soporte en español dentro del ANS acordado.</p></div>
+      <div class="card az"><div class="ic">🤝</div><h3>CSM dedicado</h3><p>Acompañamiento continuo y plan de cuenta mensual.</p></div>
+      <div class="card ro"><div class="ic">🛠️</div><h3>Bolsa de horas</h3><p>Evolutivos y mejoras del CRM según prioridad.</p></div>
+      <div class="card az"><div class="ic">🩺</div><h3>Monitoreo</h3><p>Health check proactivo y backups verificados.</p></div>
+      <div class="card ro"><div class="ic">📈</div><h3>Analytics TWC</h3><p>Readout de adopción, uso real y power users.</p></div>
+    </div>
+    <div style="margin-top:24px;background:var(--gris-10);border:1px solid var(--gris-30);border-radius:12px;padding:14px 18px;font-size:14px;color:var(--gris-90)">🔁 Ciclo mensual recurrente · conecta con el ANS de <b>CSAT ≥ 85%</b>.</div>
+    <span class="tag">Sección 4 · 10 min</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide 19 — Tabla de ANS -->
+  <section class="slide">
+    <span class="eyebrow">Sección 4 · ANS</span>
+    <h2>Los ANS ofrecidos <span class="muted" style="font-size:.5em;font-weight:600">· 20 acuerdos de nivel de servicio</span></h2>
+    <table class="tbl tbl-ans">
+      <thead><tr><th style="width:34%">Indicador</th><th>Compromiso</th></tr></thead>
+      <tbody>
+        <tr><td><b>Uptime mensual</b></td><td>≥ 99,9%</td></tr>
+        <tr><td><b>Respuesta Sev1</b></td><td>≤ 1 h (7×24)</td></tr>
+        <tr><td><b>Solución Sev1</b></td><td>≤ 8 h</td></tr>
+        <tr><td><b>RTO / RPO</b></td><td>RTO ≤ 8 h · RPO ≤ 24 h</td></tr>
+        <tr><td><b>Disponibilidad APIs</b></td><td>≥ 99,5%</td></tr>
+        <tr><td><b>Cambios estándar</b></td><td>�� 5 días hábiles</td></tr>
+      </tbody>
+    </table>
+    <p class="muted" style="margin-top:14px;font-size:13px">Resumen de los ANS más destacados. El paquete completo cubre 20 ANS (severidades, n.º máx. de fallas/mes, ventanas de mantenimiento, backups, seguridad ISO 27001/SOC 2, CSAT ≥85%, portabilidad ≤30 días, tope de penalidades 30%, etc.).</p>
+    <span class="tag">Sección 4 · 10 min</span>
+    <span class="page-num">19 / 22</span>
+  </section>
+
+  <!-- ===================================================== -->
+  <!-- CIERRE + RESPALDO -->
+  <!-- ===================================================== -->
+
+  <!-- Slide 21 — Cierre -->
+  <section class="slide bg-rojo">
+    <div class="w-shape w-tr"><img src="https://make-with-notion.s3.us-east-2.amazonaws.com/LOGO-22+(1).png" alt=""></div>
+    <span class="eyebrow">Cierre</span>
+    <h1>La herramienta correcta.<br>El equipo correcto.<br>La adopción garantizada.</h1>
+    <p class="lead" style="margin-top:24px">Por eso TWC es el aliado para construir el sistema operativo del gremio Hass.</p>
+    <p class="anchor" style="margin-top:24px">Construyamos juntos el CRM de Corpohass.</p>
+    <span class="tag">Cierre</span>
+    <span class="page-num">21 / 22</span>
+  </section>
+
+  <!-- Slide 22 — Respaldo económico -->
+  <section class="slide bg-azul">
+    <div class="w-shape w-tr"><img src="https://make-with-notion.s3.us-east-2.amazonaws.com/LOGO-24.png" alt=""></div>
+    <span class="eyebrow">Respaldo económico</span>
+    <h2>Inversión</h2>
+    <p class="lead">Condición ESAL aplicada.</p>
+    <div class="price-grid">
+      <div class="price"><div class="k">Implementación (única vez)</div><div class="v">$57.165.000</div></div>
+      <div class="price"><div class="k">Licencias</div><div class="v">$1.248.000<span class="u"> /mes</span></div></div>
+      <div class="price"><div class="k">Soporte</div><div class="v">$3.700.000<span class="u"> /mes</span></div></div>
+    </div>
+    <p class="foot-note" style="opacity:.8">Slide de respaldo — mostrar solo si lo preguntan en vivo.</p>
+    <span class="tag">Respaldo</span>
+    <span class="page-num">22 / 22</span>
+  </section>
+
+  </div><!-- /track -->
+
+  <!-- Navegación -->
+  <button class="nav-arrow prev" id="prev" aria-label="Anterior">&#8249;</button>
+  <button class="nav-arrow next" id="next" aria-label="Siguiente">&#8250;</button>
+  <div class="progress" id="progress"></div>
+  <div class="dots" id="dots"></div>
+</div>
+
+<script>
+(function(){
+  const track=document.getElementById('track');
+  const slides=Array.from(track.children);
+  const total=slides.length;
+  const prev=document.getElementById('prev');
+  const next=document.getElementById('next');
+  const progress=document.getElementById('progress');
+  const dotsWrap=document.getElementById('dots');
+  let idx=0;
+
+  // dots
+  slides.forEach((_,i)=>{
+    const b=document.createElement('button');
+    b.setAttribute('aria-label','Ir al slide '+(i+1));
+    b.addEventListener('click',()=>go(i));
+    dotsWrap.appendChild(b);
+  });
+  const dots=Array.from(dotsWrap.children);
+
+  // Numeración automática de slides (se ajusta sola al total)
+  slides.forEach((s,i)=>{const pn=s.querySelector('.page-num');if(pn)pn.textContent=String(i+1).padStart(2,'0')+' / '+total;});
+
+  function render(){
+    track.style.transform='translateX('+(-idx*100)+'vw)';
+    progress.style.width=((idx+1)/total*100)+'%';
+    prev.disabled=idx===0;
+    next.disabled=idx===total-1;
+    dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
+  }
+  function go(i){idx=Math.max(0,Math.min(total-1,i));render();}
+  function step(d){go(idx+d);}
+
+  prev.addEventListener('click',()=>step(-1));
+  next.addEventListener('click',()=>step(1));
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();step(1);}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();step(-1);}
+    else if(e.key==='Home'){go(0);}
+    else if(e.key==='End'){go(total-1);}
+  });
+
+  // soporte táctil (swipe)
+  let x0=null;
+  track.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;},{passive:true});
+  track.addEventListener('touchend',e=>{
+    if(x0===null)return;
+    const dx=e.changedTouches[0].clientX-x0;
+    if(Math.abs(dx)>50){step(dx<0?1:-1);}
+    x0=null;
+  });
+
+  window.addEventListener('resize',render);
+  render();
+
+  // Plan interactivo — etapas + Gantt
+  (function(){
+    const PLAN_STAGES=[
+      {name:'Etapa 1 · Discovery',range:'Semanas 1 a 3',lead:'Entendemos su operación antes de construir.',activities:[
+        'Levantamiento de procesos reales: ciclo de vida del afiliado, flujos, roles y datos.',
+        'Entrevistas con áreas clave (Experiencia del Afiliado, Proyectos, Sostenibilidad, Comunicación).',
+        'Revisión y priorización de los 158 requerimientos para la Fase 1.',
+        'Diseño de la arquitectura del CRM: modelo de datos y relaciones.',
+        'Validación de la solución propuesta con Corpohass.'
+      ],close:'Cierre: acta de aceptación del Discovery (hito firmado).'},
+      {name:'Etapa 2 · Implementación',range:'Semanas 3 a 9',lead:'Construimos el CRM y lo conectamos con su ecosistema.',activities:[
+        'Construcción del CRM en Notion: los 5 módulos (Atraer y afiliar · Vista 360° · Comunicar y mercadear · Atender y medir · Portal de afiliados).',
+        'Configuración de bases relacionales, vistas y permisos por rol (12 usuarios internos).',
+        'Integraciones: sistema contable (cartera), Mailchimp, SharePoint, Teams, Mapa Hass, plataforma de indicadores y compliance (vía Notion Workers + n8n/Make).',
+        'Automatizaciones clave (prospecto → afiliado activo, recordatorios, campañas).',
+        'Piloto controlado y pruebas de aceptación de usuario (UAT).'
+      ],close:'Cierre: acta de aceptación de la implementación (hito firmado).'},
+      {name:'Etapa 3 · Migración',range:'Semanas 8 a 11',lead:'Traemos su información desde BigView, limpia y validada.',activities:[
+        'Levantamiento y mapeo de datos desde BigView.',
+        'Limpieza y depuración (251 afiliadas, 150 aliados, 2.402 contactos).',
+        'Cargues de prueba y validación (migración asistida).',
+        'Verificación de integridad y cotejo con el equipo de Corpohass.'
+      ],close:'Cierre: acta de aceptación de la migración (hito firmado).'},
+      {name:'Etapa 4 · Capacitación',range:'Semanas 11 a 14',lead:'Su equipo queda autónomo y con adopción medida.',activities:[
+        'Formación diferenciada: usuarios finales y administradores.',
+        'Materiales de apoyo: manuales, videos y guías.',
+        'Gestión del cambio.',
+        'Capacitación basada en datos de uso reales (Analytics TWC).',
+        'Acompañamiento al go-live.'
+      ],close:'Cierre: acta de aceptación / puesta en marcha Fase 1, antes del 13/oct/2026 (hito crítico del RFP).'}
+    ];
+    const slide=document.getElementById('slide-plan');
+    if(!slide)return;
+    const detail=document.getElementById('plan-detail');
+    const chips=slide.querySelectorAll('.plan-chip');
+    const bars=slide.querySelectorAll('.plan-bar');
+    function renderStage(i){
+      const s=PLAN_STAGES[i];
+      detail.innerHTML='<div class="plan-detail-head"><h3>'+s.name+'</h3><span class="plan-range">'+s.range+'</span></div>'
+        +'<p class="plan-lead">'+s.lead+'</p>'
+        +'<ul class="plan-activities">'+s.activities.map(function(a){return'<li>'+a+'</li>';}).join('')+'</ul>'
+        +'<p class="plan-close">✍️ '+s.close+'</p>';
+      chips.forEach(function(c,j){
+        var on=j===i;
+        c.classList.toggle('active',on);
+        c.setAttribute('aria-selected',on?'true':'false');
+      });
+      bars.forEach(function(b,j){
+        b.classList.toggle('active',j===i);
+        b.classList.toggle('dim',j!==i);
+      });
+    }
+    function pick(i){renderStage(Math.max(0,Math.min(PLAN_STAGES.length-1,i)));}
+    chips.forEach(function(c){c.addEventListener('click',function(){pick(+c.dataset.stage);});});
+    bars.forEach(function(b){b.addEventListener('click',function(){pick(+b.dataset.stage);});});
+    pick(0);
+  })();
+})();
+</script>
+</body>
+</html>
