@@ -64,6 +64,7 @@ h1,h2,h3,h4,.head{font-family:var(--font-head);font-weight:700;line-height:1.05;
 .slide.bg-azul{background:var(--azul);color:var(--blanco);}
 .slide.bg-dark{background:#0d0d12;color:var(--blanco);}
 .slide.bg-rojo h1,.slide.bg-azul h1,.slide.bg-dark h1{color:#fff;}
+.slide.bg-rojo h2,.slide.bg-azul h2,.slide.bg-dark h2{color:#fff;}
 
 /* ============================================================
    MARCA DE AGUA TWC — sutil, esquina, no compite con contenido
@@ -350,6 +351,290 @@ table.tbl td b{color:var(--negro);}
   font-size:clamp(11px,.98vw,13px);font-weight:600;color:var(--rojo-70);line-height:1.4;
 }
 
+/* slide comparación Business vs Enterprise */
+.slide-licenses{
+  justify-content:flex-start;gap:clamp(12px,1.6vh,16px);
+  padding-top:clamp(28px,4vh,44px)!important;padding-bottom:clamp(32px,4vh,44px)!important;
+  overflow:visible;
+}
+.slide-licenses h2{font-size:clamp(26px,3.2vw,44px);margin-bottom:0;line-height:1.08;max-width:24ch;}
+.slide-licenses .lead{margin-top:clamp(10px,1.2vh,14px);font-size:clamp(15px,1.35vw,18px);line-height:1.45;max-width:54ch;color:var(--gris-90);}
+.licenses-layout{
+  display:grid;grid-template-columns:minmax(0,1fr) clamp(272px,29vw,340px);
+  gap:clamp(18px,2.2vw,28px);align-items:start;margin-top:clamp(10px,1.4vh,14px);
+}
+.licenses-main{display:flex;flex-direction:column;gap:clamp(14px,1.6vh,18px);}
+.licenses-side{display:flex;flex-direction:column;gap:clamp(12px,1.4vh,16px);overflow:visible;}
+.license-toggle-block{
+  position:relative;width:100%;overflow:visible;
+  display:flex;flex-direction:column;align-items:center;gap:clamp(8px,1vh,10px);
+}
+.lic-tip-wrap{
+  position:relative;width:100%;display:flex;justify-content:center;overflow:visible;
+}
+.lic-tip-btn{
+  width:clamp(24px,2.2vw,28px);height:clamp(24px,2.2vw,28px);border-radius:50%;
+  border:1.5px solid var(--gris-30);background:#fff;color:var(--azul);
+  font-family:var(--font-body);font-weight:700;font-size:clamp(12px,1.05vw,14px);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;
+  transition:border-color .2s,background .2s,box-shadow .2s;flex:0 0 auto;
+}
+.lic-tip-btn:hover,.lic-tip-btn:focus-visible,.lic-tip-wrap.open .lic-tip-btn{
+  border-color:var(--azul);background:var(--azul-10);outline:none;
+  box-shadow:0 0 0 2px var(--azul-10);
+}
+.lic-tip{
+  position:absolute;left:0;right:0;bottom:calc(100% + 12px);
+  width:auto;max-width:none;transform:translateY(8px);
+  background:#fff;border:1px solid var(--gris-30);border-radius:12px;
+  padding:clamp(11px,1.3vh,13px) clamp(12px,1.2vw,14px);
+  font-size:clamp(11px,1vw,12.5px);line-height:1.45;color:var(--gris-90);font-weight:500;
+  box-shadow:0 10px 28px rgba(20,20,20,.12);text-align:center;
+  opacity:0;visibility:hidden;pointer-events:none;z-index:40;
+  transition:opacity .2s ease,transform .2s ease,visibility .2s ease;
+}
+.lic-tip strong{font-weight:700;color:var(--negro);}
+.lic-tip::after{
+  content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  border:7px solid transparent;border-top-color:#fff;
+}
+.lic-tip::before{
+  content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  border:8px solid transparent;border-top-color:var(--gris-30);margin-top:1px;
+}
+.lic-tip-wrap:hover .lic-tip,.lic-tip-wrap:focus-within .lic-tip,.lic-tip-wrap.open .lic-tip{
+  opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;
+}
+.license-toggle{
+  display:inline-flex;border:1px solid var(--gris-30);border-radius:999px;
+  background:var(--gris-10);padding:3px;gap:2px;width:100%;justify-content:center;
+}
+.license-toggle button{
+  flex:1;border:none;background:transparent;color:var(--gris-90);
+  font-family:var(--font-body);font-weight:600;font-size:clamp(13px,1.15vw,15px);
+  padding:clamp(10px,1.2vh,12px) clamp(14px,1.4vw,18px);border-radius:999px;cursor:pointer;
+  transition:background .25s,color .25s,box-shadow .25s;
+}
+.license-toggle button:hover:not(.active){background:rgba(255,255,255,.7);color:var(--negro);}
+.license-toggle button.active{background:var(--rojo);color:#fff;box-shadow:0 2px 10px rgba(239,0,60,.25);}
+.license-toggle button:focus-visible{outline:2px solid var(--azul);outline-offset:2px;}
+.license-billing-toggle{margin-top:clamp(2px,.3vh,4px);}
+.license-billing-toggle button{font-size:clamp(12px,1.05vw,13px);}
+.license-price{
+  background:var(--gris-10);border:2px solid var(--gris-30);border-radius:16px;
+  padding:clamp(16px,2vh,20px) clamp(16px,1.6vw,20px);
+  transition:border-color .3s,background .3s,box-shadow .3s;
+}
+.license-price.is-business,.license-price.is-enterprise{
+  border-color:var(--rojo);background:var(--rojo-10);box-shadow:0 8px 24px rgba(239,0,60,.07);
+}
+.license-price .plan-label{font-size:clamp(12px,1vw,13px);font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gris-70);}
+.license-trm-wrap{position:relative;margin-top:clamp(12px,1.4vh,14px);}
+.trm-hint{
+  position:absolute;left:0;right:0;bottom:calc(100% + 10px);
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  font-size:clamp(11px,.95vw,12.5px);font-weight:700;color:var(--azul);
+  background:var(--azul-10);border:1px solid var(--azul-30);border-radius:10px;
+  padding:8px 12px;text-align:center;line-height:1.3;
+  opacity:0;transform:translateY(8px);pointer-events:none;
+  transition:opacity .35s ease,transform .35s ease;
+}
+.trm-hint.show{opacity:1;transform:translateY(0);animation:trmHintBob 1.4s ease-in-out 2;}
+.trm-hint-arrow{font-size:14px;line-height:1;color:var(--rojo);}
+.license-trm{
+  display:flex;align-items:center;gap:8px;
+  padding:clamp(10px,1.1vh,12px) clamp(12px,1.2vw,14px);background:#fff;border:1px solid var(--gris-30);border-radius:10px;
+  transition:border-color .3s,box-shadow .3s;
+}
+.license-trm.is-hint{
+  border-color:var(--azul);
+  animation:trmPulse 1.4s ease-in-out 3;
+}
+@keyframes trmPulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(39,0,255,.22);}
+  50%{box-shadow:0 0 0 7px rgba(39,0,255,.1);}
+}
+@keyframes trmHintBob{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-5px);}
+}
+.license-trm label{font-size:clamp(12px,1vw,13px);font-weight:700;color:var(--gris-90);white-space:nowrap;}
+.license-trm input{
+  flex:1;min-width:0;border:none;background:transparent;
+  font-family:var(--font-body);font-weight:700;font-size:clamp(16px,1.35vw,18px);color:var(--negro);
+  text-align:right;outline:none;
+}
+.license-trm input:focus{outline:none;}
+.license-trm:focus-within{border-color:var(--azul);box-shadow:0 0 0 2px var(--azul-10);}
+.license-trm .trm-unit{font-size:clamp(11px,.95vw,12px);color:var(--gris-70);white-space:nowrap;}
+.license-price .plan-total-cop{
+  font-family:var(--font-head);font-weight:700;font-size:clamp(28px,2.8vw,36px);
+  color:var(--negro);line-height:1.1;margin-top:clamp(12px,1.4vh,14px);
+  transition:opacity .2s ease,transform .25s ease;
+}
+.license-price .plan-total-cop::before{content:"≈ ";font-weight:600;color:var(--gris-70);font-size:.72em;}
+.license-price .plan-total{
+  font-family:var(--font-head);font-weight:700;font-size:clamp(17px,1.55vw,20px);
+  color:var(--rojo);line-height:1.1;margin-top:8px;
+  transition:opacity .2s ease;
+}
+.license-price .plan-breakdown{font-size:clamp(12px,1.05vw,14px);color:var(--gris-90);margin-top:10px;line-height:1.35;}
+.license-price .plan-note{font-size:clamp(11px,.95vw,12.5px);color:var(--gris-70);margin-top:12px;line-height:1.35;}
+.licenses-table-wrap{
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
+  border-radius:14px;border:1px solid var(--gris-30);flex:0 0 auto;
+}
+table.tbl-licenses{width:100%;border-collapse:separate;border-spacing:0;margin-top:0;
+  font-size:clamp(13px,1.2vw,16px);background:#fff;border:none;box-shadow:none;border-radius:0;}
+table.tbl-licenses th{background:var(--azul);color:#fff;font-family:var(--font-head);font-weight:700;
+  text-align:left;padding:clamp(12px,1.3vh,15px) clamp(14px,1.4vw,18px);font-size:clamp(13px,1.15vw,16px);
+  transition:background .25s,box-shadow .25s;}
+table.tbl-licenses td{padding:clamp(11px,1.2vh,14px) clamp(14px,1.4vw,18px);border-top:1px solid var(--gris-30);
+  vertical-align:middle;line-height:1.35;color:var(--gris-90);}
+table.tbl-licenses .col-cap{width:32%;font-weight:600;font-size:clamp(12.5px,1.1vw,15px);}
+table.tbl-licenses th.col-cap{color:#fff;}
+table.tbl-licenses td.col-cap{color:var(--negro);}
+table.tbl-licenses tr:nth-child(even) td{background:var(--gris-10);}
+table.tbl-licenses th.col-plan,
+table.tbl-licenses td.col-plan{width:33%;transition:background .3s,box-shadow .3s;}
+table.tbl-licenses[data-active="business"] th.col-business,
+table.tbl-licenses[data-active="business"] td.col-business{
+  background:var(--rojo-10)!important;box-shadow:inset 0 0 0 2px var(--rojo);
+}
+table.tbl-licenses[data-active="business"] th.col-business{background:var(--rojo)!important;color:#fff;}
+table.tbl-licenses[data-active="enterprise"] th.col-enterprise,
+table.tbl-licenses[data-active="enterprise"] td.col-enterprise{
+  background:var(--rojo-10)!important;box-shadow:inset 0 0 0 2px var(--rojo);
+}
+table.tbl-licenses[data-active="enterprise"] th.col-enterprise{background:var(--rojo)!important;color:#fff;}
+.licenses-callout{
+  display:inline-block;width:auto;max-width:100%;align-self:flex-start;
+  background:var(--azul-10);border:1px solid var(--azul-30);border-left:4px solid var(--azul);
+  border-radius:12px;padding:clamp(14px,1.6vh,16px) clamp(18px,1.8vw,22px);
+  font-size:clamp(14px,1.25vw,16.5px);line-height:1.45;color:var(--gris-90);
+}
+.licenses-callout strong{color:var(--negro);font-weight:700;}
+
+/* slide planes de soporte mensual */
+.slide-support{
+  justify-content:flex-start;gap:clamp(10px,1.4vh,16px);
+  padding-top:clamp(24px,3.5vh,44px)!important;padding-bottom:clamp(36px,4.5vh,48px)!important;
+  overflow-y:auto;overflow-x:hidden;
+}
+.slide-support h2{font-size:clamp(28px,3.4vw,46px);margin-bottom:0;line-height:1.05;}
+.slide-support .lead{margin-top:clamp(8px,1vh,12px);font-size:clamp(14px,1.3vw,17px);line-height:1.4;color:var(--gris-90);max-width:48ch;}
+.spm-tabs-wrap{position:relative;width:100%;}
+.spm-tab-hint{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  font-size:clamp(12px,1.05vw,14px);font-weight:600;color:var(--azul);
+  margin-bottom:clamp(8px,1vh,10px);opacity:0;transform:translateY(-6px);
+  transition:opacity .35s ease,transform .35s ease;pointer-events:none;
+}
+.spm-tab-hint.show{opacity:1;transform:translateY(0);animation:spmHintBob 1.4s ease-in-out 2;}
+.spm-tab-hint .spm-hint-arrow{font-size:15px;color:var(--rojo);animation:spmHintArrow 1s ease-in-out 3;}
+@keyframes spmHintBob{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-4px);}
+}
+@keyframes spmHintArrow{
+  0%,100%{transform:translateX(0);}
+  50%{transform:translateX(4px);}
+}
+.spm-tabs{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.2vw,14px);
+  max-width:720px;width:100%;
+}
+.spm-tabs button{
+  border:2px solid var(--gris-30);background:var(--blanco);color:var(--gris-90);
+  font-family:var(--font-body);font-weight:700;font-size:clamp(14px,1.25vw,17px);
+  padding:clamp(14px,1.6vh,18px) clamp(12px,1.2vw,16px);border-radius:14px;cursor:pointer;
+  transition:background .2s,color .2s,border-color .2s,box-shadow .2s,transform .2s;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  box-shadow:0 4px 16px rgba(20,20,20,.04);
+}
+.spm-tabs button.is-nudge{
+  animation:spmTabNudge .65s ease;
+  border-color:var(--azul-30);
+}
+@keyframes spmTabNudge{
+  0%,100%{transform:translateY(0);box-shadow:0 4px 16px rgba(20,20,20,.04);}
+  40%{transform:translateY(-4px);box-shadow:0 10px 28px rgba(39,0,255,.14);border-color:var(--azul);}
+}
+.spm-tabs button:hover:not(.active){border-color:var(--azul-30);background:var(--azul-10);}
+.spm-tabs button.active{background:var(--rojo);color:#fff;border-color:var(--rojo);box-shadow:0 8px 24px rgba(239,0,60,.22);transform:translateY(-1px);}
+.spm-tabs button:focus-visible{outline:2px solid var(--azul);outline-offset:3px;}
+.spm-badge{
+  font-size:clamp(9px,.78vw,10px);font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  background:var(--rojo);color:#fff;padding:3px 8px;border-radius:999px;line-height:1.2;
+}
+.spm-tabs button.active .spm-badge{background:#fff;color:var(--rojo);}
+.spm-card{
+  display:grid;grid-template-columns:minmax(240px,30%) 1fr;
+  width:100%;flex:1;min-height:0;
+  background:var(--blanco);border:1px solid var(--gris-30);border-radius:18px;
+  box-shadow:0 12px 36px rgba(20,20,20,.06);overflow:hidden;
+}
+.spm-price-col{
+  background:var(--gris-10);border-right:1px solid var(--gris-30);
+  padding:clamp(22px,2.6vh,30px) clamp(20px,2vw,28px);
+  display:flex;flex-direction:column;justify-content:center;gap:clamp(10px,1.2vh,14px);
+}
+.spm-price-col h3{
+  font-size:clamp(22px,2.2vw,30px);color:var(--azul);margin:0;line-height:1.1;
+  transition:opacity .2s ease;
+}
+.spm-price-usd{
+  font-family:var(--font-head);font-weight:700;font-size:clamp(38px,4.2vw,54px);
+  color:var(--rojo);line-height:1;transition:opacity .2s ease,transform .2s ease;
+}
+.spm-price-usd small{font-size:.38em;font-weight:600;color:var(--gris-70);font-family:var(--font-body);}
+.spm-trm-wrap{margin-top:clamp(4px,.6vh,8px);}
+.spm-trm-wrap .license-trm{background:#fff;}
+.spm-price-cop{
+  font-family:var(--font-head);font-weight:700;font-size:clamp(22px,2.3vw,30px);
+  color:var(--negro);line-height:1.15;margin-top:clamp(2px,.4vh,6px);
+  transition:opacity .2s ease,transform .25s ease;
+}
+.spm-price-cop::before{content:"≈ ";font-weight:600;color:var(--gris-70);font-size:.78em;}
+.spm-panels{
+  position:relative;min-height:clamp(300px,40vh,460px);
+}
+.spm-panel{
+  position:absolute;inset:0;
+  padding:clamp(22px,2.6vh,30px) clamp(24px,2.6vw,36px);
+  opacity:0;transform:translateX(12px);pointer-events:none;
+  transition:opacity .2s ease,transform .2s ease;
+  display:flex;flex-direction:column;overflow-y:auto;
+}
+.spm-panel.active{opacity:1;transform:translateX(0);pointer-events:auto;z-index:1;}
+.spm-benefits{
+  list-style:none;display:grid;grid-template-columns:repeat(2,1fr);
+  gap:clamp(10px,1.2vh,14px) clamp(18px,2.2vw,28px);align-content:start;height:100%;
+}
+.spm-benefits li{
+  display:flex;align-items:flex-start;gap:9px;
+  font-size:clamp(13px,1.2vw,16px);line-height:1.35;color:var(--gris-90);
+}
+.spm-ic{flex:0 0 auto;font-size:1.05em;line-height:1.35;color:var(--rojo);font-weight:700;}
+.spm-ic.muted{color:var(--gris-70);}
+.spm-foot{
+  font-size:clamp(11px,1vw,13px);line-height:1.45;color:var(--gris-70);
+  max-width:72ch;padding-top:clamp(4px,0.6vh,8px);border-top:1px solid var(--gris-30);
+}
+
+/* slide ANS — compromisos Silver */
+.slide-ans{justify-content:flex-start;gap:clamp(14px,1.8vh,20px);padding-top:clamp(32px,5vh,56px)!important;}
+.slide-ans h2{font-size:clamp(26px,3.2vw,42px);margin-bottom:0;}
+.slide-ans .lead{margin-top:clamp(8px,1vh,12px);font-size:clamp(14px,1.3vw,17px);line-height:1.45;max-width:56ch;}
+.slide-ans ul.bullets{margin-top:clamp(12px,1.6vh,18px);gap:clamp(12px,1.4vh,16px);max-width:62ch;}
+.slide-ans ul.bullets li{font-size:clamp(14px,1.3vw,18px);}
+.slide-ans-note{
+  margin-top:clamp(14px,1.8vh,20px);max-width:58ch;
+  background:var(--gris-10);border:1px solid var(--gris-30);border-left:4px solid var(--azul);
+  border-radius:10px;padding:clamp(12px,1.4vh,14px) clamp(14px,1.5vw,18px);
+  font-size:clamp(12px,1.1vw,14px);line-height:1.45;color:var(--gris-90);
+}
+
 /* flujos demo */
 .flow-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:30px;}
 .flow-cards .fc{background:#fff;border-radius:20px;border:1px solid var(--gris-30);padding:26px 22px;
@@ -389,12 +674,82 @@ table.tbl td b{color:var(--negro);}
 .team .member h3{font-size:clamp(14px,1.3vw,18px);}
 .team .member p{font-size:clamp(12px,1.05vw,15px);color:var(--gris-90);}
 
-/* precios */
+/* precios — slide inversión */
 .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:34px;}
 .price{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.28);border-radius:18px;padding:26px;}
 .price .k{font-size:clamp(13px,1.2vw,16px);opacity:.85;font-weight:600;}
 .price .v{font-family:var(--font-head);font-weight:700;font-size:clamp(24px,2.8vw,40px);margin-top:10px;}
 .price .u{font-size:13px;opacity:.7;}
+
+.slide-invest{justify-content:flex-start;gap:clamp(14px,1.8vh,20px);color:#fff;}
+.slide-invest h2{margin-bottom:0;color:#fff;}
+.slide-invest .lead{margin-top:clamp(6px,.8vh,10px);opacity:.88;color:rgba(255,255,255,.92);}
+.slide-invest .inv-k,.slide-invest .inv-label,.slide-invest .inv-amt .cop,.slide-invest .inv-total-cop{color:#fff;}
+.slide-invest .inv-sub,.slide-invest .inv-row-note,.slide-invest .inv-amt .usd{color:rgba(255,255,255,.78);}
+.inv-layout{width:100%;margin-top:clamp(14px,1.8vh,22px);}
+.inv-card{
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.28);
+  border-radius:16px;padding:clamp(18px,2.2vh,24px) clamp(18px,2vw,24px);
+}
+.inv-k{font-size:clamp(12px,1.05vw,14px);font-weight:600;opacity:.82;letter-spacing:.02em;}
+.inv-sub{font-size:clamp(11px,.95vw,13px);opacity:.72;margin-top:clamp(6px,.8vh,8px);line-height:1.35;}
+.inv-all{display:flex;flex-direction:column;gap:0;}
+.inv-row-note{
+  font-size:clamp(10px,.92vw,12px);opacity:.72;line-height:1.35;max-width:36ch;
+}
+.inv-row{
+  display:grid;grid-template-columns:minmax(110px,22%) minmax(0,1fr) auto;
+  gap:clamp(8px,1vw,12px) clamp(12px,1.4vw,16px);align-items:center;
+  padding:clamp(12px,1.4vh,14px) 0;
+  border-bottom:1px solid rgba(255,255,255,.16);
+}
+.inv-row:last-of-type{border-bottom:none;padding-bottom:0;}
+.inv-label{font-size:clamp(12px,1.05vw,14px);font-weight:600;opacity:.88;line-height:1.25;}
+.inv-row-controls{display:flex;flex-wrap:wrap;gap:clamp(6px,.8vh,8px);align-items:center;}
+.inv-billing-toggle button{font-size:clamp(9px,.85vw,11px);padding:clamp(4px,.6vh,5px) clamp(7px,.9vw,9px);}
+.inv-mini-toggle{
+  display:inline-flex;border:1px solid rgba(255,255,255,.28);border-radius:999px;
+  background:rgba(255,255,255,.08);padding:2px;gap:2px;justify-self:start;
+}
+.inv-mini-toggle button{
+  border:none;background:transparent;color:rgba(255,255,255,.78);
+  font-family:var(--font-body);font-weight:600;font-size:clamp(10px,.92vw,12px);
+  padding:clamp(5px,.7vh,6px) clamp(8px,1vw,11px);border-radius:999px;cursor:pointer;
+  transition:background .2s,color .2s,box-shadow .2s;white-space:nowrap;
+}
+.inv-mini-toggle button:hover:not(.active){background:rgba(255,255,255,.12);color:#fff;}
+.inv-mini-toggle button.active{background:var(--rojo);color:#fff;box-shadow:0 2px 8px rgba(239,0,60,.35);}
+.inv-mini-toggle button:focus-visible{outline:2px solid #fff;outline-offset:1px;}
+.inv-amt{text-align:right;min-width:clamp(120px,14vw,160px);}
+.inv-amt .cop{
+  font-family:var(--font-head);font-weight:700;font-size:clamp(16px,1.55vw,22px);line-height:1.15;
+  transition:opacity .2s ease;
+}
+.inv-amt .usd{font-size:clamp(10px,.9vw,11.5px);opacity:.72;margin-top:3px;}
+.inv-total{
+  margin-top:clamp(4px,.6vh,8px);padding-top:clamp(12px,1.4vh,14px);
+  border-top:1px solid rgba(255,255,255,.22);
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:clamp(8px,1vw,12px);
+}
+.inv-total .inv-k{flex:1 1 100%;margin:0;}
+.inv-total-cop{
+  font-family:var(--font-head);font-weight:700;
+  font-size:clamp(24px,2.6vw,36px);line-height:1.1;
+}
+.inv-trm{
+  display:inline-flex;align-items:center;gap:8px;align-self:flex-start;
+  margin-top:clamp(2px,.4vh,6px);padding:clamp(7px,.9vh,8px) clamp(10px,1vw,12px);
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);border-radius:10px;
+}
+.inv-trm label{font-size:clamp(11px,.95vw,12px);font-weight:700;opacity:.85;}
+.inv-trm input{
+  width:clamp(64px,6vw,78px);border:none;background:transparent;
+  font-family:var(--font-body);font-weight:700;font-size:clamp(14px,1.2vw,16px);color:#fff;
+  text-align:right;outline:none;
+}
+.inv-trm input:focus{outline:none;}
+.inv-trm span{font-size:clamp(10px,.9vw,11px);opacity:.72;}
+.inv-trm:focus-within{border-color:rgba(255,255,255,.5);box-shadow:0 0 0 2px rgba(255,255,255,.12);}
 
 /* ============================================================
    NAVEGACIÓN
@@ -425,6 +780,17 @@ table.tbl td b{color:var(--negro);}
   .timeline{grid-template-columns:repeat(2,1fr);gap:24px;}
   .timeline .step::before{display:none;}
   .gantt{overflow-x:auto;}
+  .licenses-layout{grid-template-columns:1fr;}
+  .licenses-side{order:-1;}
+  .licenses-table-wrap .col-cap{min-width:120px;}
+  .spm-benefits{grid-template-columns:1fr;}
+  .spm-tabs{max-width:none;}
+  .spm-card{grid-template-columns:1fr;}
+  .spm-price-col{border-right:none;border-bottom:1px solid var(--gris-30);}
+  .spm-price-usd{font-size:clamp(34px,9vw,44px);}
+  .inv-row{grid-template-columns:1fr;gap:8px;}
+  .inv-amt{text-align:left;min-width:0;}
+  .inv-mini-toggle{justify-self:start;}
 }
 </style>
 </head>
@@ -659,6 +1025,106 @@ table.tbl td b{color:var(--negro);}
     <span class="page-num"></span>
   </section>
 
+  <!-- Slide — Business vs Enterprise (interactiva) -->
+  <section class="slide slide-licenses" id="slide-licenses">
+    <span class="eyebrow">Sección 2 · Licencias Notion</span>
+    <h2>Business vs Enterprise: ¿qué cambia?</h2>
+    <p class="lead">El mismo CRM en ambos planes. Solo cambian capas de seguridad y respaldo formal — con total transparencia.</p>
+
+    <div class="licenses-layout">
+      <div class="licenses-main">
+        <div class="licenses-table-wrap">
+          <table class="tbl-licenses" id="licenses-table" data-active="business">
+            <thead>
+              <tr>
+                <th class="col-cap">Capacidad</th>
+                <th class="col-plan col-business">Business</th>
+                <th class="col-plan col-enterprise">Enterprise</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="col-cap">Registro de accesos y cambios</td>
+                <td class="col-plan col-business">Solo cambios por página</td>
+                <td class="col-plan col-enterprise">Accesos en todo el espacio</td>
+              </tr>
+              <tr>
+                <td class="col-cap">Disponibilidad 99,9%</td>
+                <td class="col-plan col-business">Sin SLA del fabricante</td>
+                <td class="col-plan col-enterprise">SLA con compensación</td>
+              </tr>
+              <tr>
+                <td class="col-cap">Ubicación de datos</td>
+                <td class="col-plan col-business">Servidores en EE.UU.</td>
+                <td class="col-plan col-enterprise">EE.UU. o Europa</td>
+              </tr>
+              <tr>
+                <td class="col-cap">Gestión de usuarios</td>
+                <td class="col-plan col-business">Alta y baja manual</td>
+                <td class="col-plan col-enterprise">Sync con directorio</td>
+              </tr>
+              <tr>
+                <td class="col-cap">Administración</td>
+                <td class="col-plan col-business">Roles y permisos estándar</td>
+                <td class="col-plan col-enterprise">Controles admin avanzados</td>
+              </tr>
+              <tr>
+                <td class="col-cap">Soporte Notion</td>
+                <td class="col-plan col-business">Soporte prioritario fabricante</td>
+                <td class="col-plan col-enterprise">Gerente de éxito dedicado</td>
+              </tr>
+              <tr>
+                <td class="col-cap">Historial de versiones</td>
+                <td class="col-plan col-business">Recuperar hasta 90 días</td>
+                <td class="col-plan col-enterprise">Historial sin límite</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="licenses-callout"><strong>Mismo CRM en ambos planes.</strong> Se puede construir el sistema completo con Business o Enterprise — no cambian las funcionalidades del CRM. Las diferencias están en seguridad, analítica, gobierno de la plataforma y respaldo formal de Notion.</div>
+      </div>
+
+      <div class="licenses-side">
+        <div class="license-toggle-block">
+          <div class="lic-tip-wrap">
+            <button type="button" class="lic-tip-btn" id="lic-tip-btn" aria-label="Información sobre los planes de Notion" aria-describedby="lic-tip-text">?</button>
+            <span class="lic-tip" id="lic-tip-text" role="tooltip">Notion ofrece <strong>dos tipos de plan</strong> para equipos: <strong>Business</strong> y <strong>Enterprise</strong>. Son las licencias oficiales de la plataforma; aquí comparamos qué cambia entre una y otra.</span>
+          </div>
+          <div class="license-toggle" role="tablist" aria-label="Seleccionar plan Notion">
+            <button type="button" class="active" role="tab" aria-selected="true" data-plan="business" id="tab-business">Business</button>
+            <button type="button" role="tab" aria-selected="false" data-plan="enterprise" id="tab-enterprise">Enterprise</button>
+          </div>
+          <div class="license-toggle license-billing-toggle" role="tablist" aria-label="Forma de pago de licencias Notion">
+            <button type="button" role="tab" aria-selected="false" data-billing="monthly" id="tab-billing-monthly">Mensual</button>
+            <button type="button" class="active" role="tab" aria-selected="true" data-billing="annual" id="tab-billing-annual">Anual</button>
+          </div>
+        </div>
+        <div class="license-price is-business" id="license-price" aria-live="polite">
+          <div class="plan-label" id="price-label">Plan Business · 12 usuarios · pago anual</div>
+          <div class="license-trm-wrap">
+            <div class="trm-hint" id="trm-hint" aria-hidden="true">
+              <span>✏️ Edita la TRM aquí</span>
+              <span class="trm-hint-arrow">↓</span>
+            </div>
+            <div class="license-trm" id="license-trm">
+              <label for="trm-input">TRM</label>
+              <input type="number" id="trm-input" value="3400" min="1" step="1" inputmode="numeric" aria-label="Tasa de cambio COP por USD">
+              <span class="trm-unit">COP/USD</span>
+            </div>
+          </div>
+          <div class="plan-total-cop" id="price-total-cop">$816.000 / mes</div>
+          <div class="plan-total" id="price-total">USD $240 / mes</div>
+          <div class="plan-breakdown" id="price-breakdown">USD $20/usuario × 12 usuarios · pago anual</div>
+          <div class="plan-note">Portal de 300 afiliados sin costo de licencia.</div>
+        </div>
+      </div>
+    </div>
+
+    <span class="tag">Sección 2 · 15 min</span>
+    <span class="page-num"></span>
+  </section>
+
   <!-- Slide — La solución en 4 módulos -->
   <section class="slide">
     <span class="eyebrow">Sección 2 · Funcionalidades de la solución</span>
@@ -853,24 +1319,116 @@ table.tbl td b{color:var(--negro);}
     <span class="page-num"></span>
   </section>
 
-  <!-- Slide 19 — Tabla de ANS -->
-  <section class="slide">
-    <span class="eyebrow">Sección 4 · ANS</span>
-    <h2>Los ANS ofrecidos <span class="muted" style="font-size:.5em;font-weight:600">· 20 acuerdos de nivel de servicio</span></h2>
-    <table class="tbl tbl-ans">
-      <thead><tr><th style="width:34%">Indicador</th><th>Compromiso</th></tr></thead>
-      <tbody>
-        <tr><td><b>Uptime mensual</b></td><td>≥ 99,9%</td></tr>
-        <tr><td><b>Respuesta Sev1</b></td><td>≤ 1 h (7×24)</td></tr>
-        <tr><td><b>Solución Sev1</b></td><td>≤ 8 h</td></tr>
-        <tr><td><b>RTO / RPO</b></td><td>RTO ≤ 8 h · RPO ≤ 24 h</td></tr>
-        <tr><td><b>Disponibilidad APIs</b></td><td>≥ 99,5%</td></tr>
-        <tr><td><b>Cambios estándar</b></td><td>�� 5 días hábiles</td></tr>
-      </tbody>
-    </table>
-    <p class="muted" style="margin-top:14px;font-size:13px">Resumen de los ANS más destacados. El paquete completo cubre 20 ANS (severidades, n.º máx. de fallas/mes, ventanas de mantenimiento, backups, seguridad ISO 27001/SOC 2, CSAT ≥85%, portabilidad ≤30 días, tope de penalidades 30%, etc.).</p>
+  <!-- Slide — Planes de soporte mensual (interactiva) -->
+  <section class="slide slide-support" id="slide-support">
+    <span class="eyebrow">Sección 4 · Soporte</span>
+    <h2>Planes de soporte mensual</h2>
+    <p class="lead">Elige el nivel de acompañamiento. Puedes cambiar de plan cuando lo necesites.</p>
+
+    <div class="spm-tabs-wrap">
+      <div class="spm-tab-hint" id="spm-tab-hint" aria-hidden="true">
+        <span>👆 Elige un plan para comparar</span>
+        <span class="spm-hint-arrow">→</span>
+      </div>
+      <div class="spm-tabs" role="tablist" aria-label="Plan de soporte mensual">
+        <button type="button" role="tab" aria-selected="false" aria-controls="basico" data-plan="basico" id="tab-spm-basico">Básico</button>
+        <button type="button" class="active" role="tab" aria-selected="true" aria-controls="silver" data-plan="silver" id="tab-spm-silver">Silver<span class="spm-badge">Recomendado</span></button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="plus" data-plan="plus" id="tab-spm-plus">Plus</button>
+      </div>
+    </div>
+
+    <div class="spm-card">
+      <aside class="spm-price-col" aria-live="polite">
+        <h3 id="spm-plan-name">Silver</h3>
+        <div class="spm-price-usd" id="spm-price-usd">$660 <small>USD/mes</small></div>
+        <div class="license-trm-wrap spm-trm-wrap">
+          <div class="trm-hint" id="spm-trm-hint" aria-hidden="true">
+            <span>✏️ Edita la TRM aquí</span>
+            <span class="trm-hint-arrow">↓</span>
+          </div>
+          <div class="license-trm spm-trm" id="spm-trm">
+            <label for="spm-trm-input">TRM</label>
+            <input type="number" id="spm-trm-input" value="3400" min="1" step="1" inputmode="numeric" aria-label="Tasa de cambio COP por USD">
+            <span class="trm-unit">COP/USD</span>
+          </div>
+        </div>
+        <div class="spm-price-cop" id="spm-price-cop">$2.244.000 / mes</div>
+      </aside>
+
+      <div class="spm-panels">
+      <article class="spm-panel" id="basico" role="tabpanel" aria-labelledby="tab-spm-basico" aria-hidden="true" tabindex="-1">
+        <ul class="spm-benefits">
+          <li><span class="spm-ic">✓</span> Respuesta si algo grave se daña: 1 día hábil</li>
+          <li><span class="spm-ic">✓</span> Lo dejamos funcionando: en 2–3 días</li>
+          <li><span class="spm-ic">✓</span> Arreglo de fallas (troubleshooting): incluido</li>
+          <li><span class="spm-ic muted">○</span> Ajustes pequeños (nuevas vistas, propiedades): no incluido (se cotiza aparte)</li>
+          <li><span class="spm-ic">✓</span> Reporte de uso y adopción: cada trimestre</li>
+          <li><span class="spm-ic">✓</span> Capacitación a nuevos usuarios: guías y videos</li>
+          <li><span class="spm-ic">✓</span> Vigilancia de integraciones: aviso si algo se cae</li>
+          <li><span class="spm-ic">✓</span> Adaptación cuando una herramienta cambia su API: incluido</li>
+          <li><span class="spm-ic">✓</span> Documentación del sistema: entregada al cierre</li>
+          <li><span class="spm-ic">✓</span> Orden de permisos y accesos: cuando lo pidas</li>
+          <li><span class="spm-ic">✓</span> Reunión de revisión: cada 6 meses</li>
+        </ul>
+      </article>
+
+      <article class="spm-panel active" id="silver" role="tabpanel" aria-labelledby="tab-spm-silver" aria-hidden="false" tabindex="0">
+        <ul class="spm-benefits">
+          <li><span class="spm-ic">✓</span> Respuesta si algo grave se daña: 4 horas hábiles</li>
+          <li><span class="spm-ic">✓</span> Lo dejamos funcionando: en 24 horas</li>
+          <li><span class="spm-ic">✓</span> Arreglo de fallas (troubleshooting): incluido</li>
+          <li><span class="spm-ic">✓</span> Ajustes pequeños (nuevas vistas, propiedades): 6 horas/mes</li>
+          <li><span class="spm-ic">✓</span> Reporte de uso y adopción: cada mes + recomendaciones</li>
+          <li><span class="spm-ic">✓</span> Capacitación a nuevos usuarios: sesión cada trimestre</li>
+          <li><span class="spm-ic">✓</span> Vigilancia de integraciones: tablero con el estado</li>
+          <li><span class="spm-ic">✓</span> Adaptación cuando una herramienta cambia su API: incluido</li>
+          <li><span class="spm-ic">✓</span> Novedades de Notion e IA: recomendamos cada trimestre qué adoptar</li>
+          <li><span class="spm-ic">✓</span> Documentación del sistema: actualización trimestral</li>
+          <li><span class="spm-ic">✓</span> Orden de permisos y accesos: revisión trimestral</li>
+          <li><span class="spm-ic">✓</span> Reunión de revisión: cada trimestre</li>
+        </ul>
+      </article>
+
+      <article class="spm-panel" id="plus" role="tabpanel" aria-labelledby="tab-spm-plus" aria-hidden="true" tabindex="-1">
+        <ul class="spm-benefits">
+          <li><span class="spm-ic">✓</span> Respuesta si algo grave se daña: máximo 2 horas (lunes a sábado)</li>
+          <li><span class="spm-ic">✓</span> Lo dejamos funcionando: en 8 horas</li>
+          <li><span class="spm-ic">✓</span> Arreglo de fallas (troubleshooting): incluido</li>
+          <li><span class="spm-ic">✓</span> Ajustes pequeños (nuevas vistas, propiedades): 10 horas/mes</li>
+          <li><span class="spm-ic">✓</span> Reporte de uso y adopción: cada mes + comité de seguimiento</li>
+          <li><span class="spm-ic">✓</span> Capacitación a nuevos usuarios: 60–90 min semanales (office hours) + sesiones on-demand</li>
+          <li><span class="spm-ic">✓</span> Vigilancia de integraciones: alertas automáticas 24/7</li>
+          <li><span class="spm-ic">✓</span> Adaptación cuando una herramienta cambia su API: incluido</li>
+          <li><span class="spm-ic">✓</span> Novedades de Notion e IA: las evaluamos e implementamos por ti</li>
+          <li><span class="spm-ic">✓</span> Documentación del sistema: actualización continua</li>
+          <li><span class="spm-ic">✓</span> Orden de permisos y accesos: revisión mensual + reglas escritas</li>
+          <li><span class="spm-ic">✓</span> Reunión de revisión: cada mes</li>
+        </ul>
+      </article>
+      </div>
+    </div>
+
+    <p class="spm-foot">Mantener lo construido va incluido. Crear cosas nuevas (un módulo, workflow o integración) se cotiza aparte. Sin &lsquo;soporte ilimitado&rsquo;: cada plan tiene un alcance claro.</p>
+
     <span class="tag">Sección 4 · 10 min</span>
-    <span class="page-num">19 / 22</span>
+    <span class="page-num"></span>
+  </section>
+
+  <!-- Slide — Compromisos de servicio (ANS) -->
+  <section class="slide slide-ans" id="slide-ans">
+    <span class="eyebrow">Sección 4 · ANS</span>
+    <h2>Compromisos de servicio (ANS)</h2>
+    <p class="lead">Nuestro estándar de referencia es el nivel <b>Silver</b>. Esto es lo que Corpohass puede esperar del servicio:</p>
+    <ul class="bullets">
+      <li><b>Disponibilidad:</b> 99.9% garantizada.</li>
+      <li><b>Si algo se daña:</b> respondemos casos urgentes en máximo <b>2 horas</b> en horario hábil (y en <b>1 hora, 24/7</b>, con el nivel Plus).</li>
+      <li><b>Copias de respaldo</b> diarias guardadas <b>12 meses</b>.</li>
+      <li><b>Entrega de datos</b> en máximo <b>30 días</b> si terminan el contrato.</li>
+      <li><b>Medimos satisfacción</b> cada trimestre, meta <b>≥ 85%</b>.</li>
+    </ul>
+    <p class="slide-ans-note">Tiempos de respuesta y acompañamiento varían según el nivel de soporte elegido (ver slide de Planes de soporte mensual).</p>
+    <span class="tag">Sección 4 · 10 min</span>
+    <span class="page-num"></span>
   </section>
 
   <!-- ===================================================== -->
@@ -888,19 +1446,72 @@ table.tbl td b{color:var(--negro);}
     <span class="page-num">21 / 22</span>
   </section>
 
-  <!-- Slide 22 — Respaldo económico -->
-  <section class="slide bg-azul">
+  <!-- Slide 22 — Inversión -->
+  <section class="slide bg-azul slide-invest" id="slide-invest">
     <div class="w-shape w-tr"><img src="https://make-with-notion.s3.us-east-2.amazonaws.com/LOGO-24.png" alt=""></div>
-    <span class="eyebrow">Respaldo económico</span>
-    <h2>Inversión</h2>
-    <p class="lead">Condición ESAL aplicada.</p>
-    <div class="price-grid">
-      <div class="price"><div class="k">Implementación (única vez)</div><div class="v">$57.165.000</div></div>
-      <div class="price"><div class="k">Licencias</div><div class="v">$1.248.000<span class="u"> /mes</span></div></div>
-      <div class="price"><div class="k">Soporte</div><div class="v">$3.700.000<span class="u"> /mes</span></div></div>
+    <span class="eyebrow">Inversión</span>
+    <h2>Resumen económico</h2>
+    <p class="lead">Condición ESAL aplicada · precios mensuales según plan elegido.</p>
+
+    <div class="inv-layout">
+      <div class="inv-card inv-all" aria-live="polite">
+        <div class="inv-k">Resumen de inversión</div>
+
+        <div class="inv-row">
+          <span class="inv-label">Implementación (única vez)</span>
+          <span class="inv-row-note">Proyecto llave en mano · 4 etapas · ~14 semanas</span>
+          <div class="inv-amt">
+            <div class="cop" id="inv-impl-cop">$59.500.000</div>
+            <div class="usd" id="inv-impl-usd">USD $17.500 · pago único</div>
+          </div>
+        </div>
+
+        <div class="inv-row">
+          <span class="inv-label">Licencias Notion</span>
+          <div class="inv-row-controls">
+            <div class="inv-mini-toggle" role="tablist" aria-label="Plan Notion">
+              <button type="button" class="active" role="tab" aria-selected="true" data-lic="business">Business</button>
+              <button type="button" role="tab" aria-selected="false" data-lic="enterprise">Enterprise</button>
+            </div>
+            <div class="inv-mini-toggle inv-billing-toggle" role="tablist" aria-label="Forma de pago Notion">
+              <button type="button" role="tab" aria-selected="false" data-bill="monthly">Mensual</button>
+              <button type="button" class="active" role="tab" aria-selected="true" data-bill="annual">Anual</button>
+            </div>
+          </div>
+          <div class="inv-amt">
+            <div class="cop" id="inv-lic-cop">$816.000 / mes</div>
+            <div class="usd" id="inv-lic-usd">USD $240 / mes · $20/usuario · anual</div>
+          </div>
+        </div>
+
+        <div class="inv-row">
+          <span class="inv-label">Soporte mensual TWC</span>
+          <div class="inv-mini-toggle" role="tablist" aria-label="Plan de soporte">
+            <button type="button" role="tab" aria-selected="false" data-sup="basico">Básico</button>
+            <button type="button" class="active" role="tab" aria-selected="true" data-sup="silver">Silver</button>
+            <button type="button" role="tab" aria-selected="false" data-sup="plus">Plus</button>
+          </div>
+          <div class="inv-amt">
+            <div class="cop" id="inv-sup-cop">$2.244.000 / mes</div>
+            <div class="usd" id="inv-sup-usd">USD $660 / mes</div>
+          </div>
+        </div>
+
+        <div class="inv-total">
+          <div class="inv-k">Total mensual recurrente</div>
+          <div class="inv-total-cop" id="inv-total-cop">$3.060.000 / mes</div>
+          <div class="inv-sub" id="inv-total-usd">USD $900 / mes</div>
+        </div>
+
+        <div class="inv-trm">
+          <label for="inv-trm-input">TRM</label>
+          <input type="number" id="inv-trm-input" value="3400" min="1" step="1" inputmode="numeric" aria-label="Tasa de cambio COP por USD">
+          <span>COP/USD</span>
+        </div>
+      </div>
     </div>
-    <p class="foot-note" style="opacity:.8">Slide de respaldo — mostrar solo si lo preguntan en vivo.</p>
-    <span class="tag">Respaldo</span>
+
+    <span class="tag">Inversión</span>
     <span class="page-num">22 / 22</span>
   </section>
 
@@ -942,6 +1553,7 @@ table.tbl td b{color:var(--negro);}
     prev.disabled=idx===0;
     next.disabled=idx===total-1;
     dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
+    document.dispatchEvent(new CustomEvent('slidechange',{detail:{index:idx,slide:slides[idx]}}));
   }
   function go(i){idx=Math.max(0,Math.min(total-1,i));render();}
   function step(d){go(idx+d);}
@@ -1025,6 +1637,458 @@ table.tbl td b{color:var(--negro);}
     chips.forEach(function(c){c.addEventListener('click',function(){pick(+c.dataset.stage);});});
     bars.forEach(function(b){b.addEventListener('click',function(){pick(+b.dataset.stage);});});
     pick(0);
+  })();
+
+  // Comparación Business vs Enterprise
+  (function(){
+    const USERS=12;
+    const RATES={
+      monthly:{business:24,enterprise:32},
+      annual:{business:20,enterprise:26}
+    };
+    const PLAN_CLS={business:'is-business',enterprise:'is-enterprise'};
+    const PLAN_NAMES={business:'Business',enterprise:'Enterprise'};
+    const slide=document.getElementById('slide-licenses');
+    if(!slide)return;
+    const tipWrap=slide.querySelector('.lic-tip-wrap');
+    const tipBtn=document.getElementById('lic-tip-btn');
+    if(tipBtn&&tipWrap){
+      tipBtn.addEventListener('click',function(e){
+        e.stopPropagation();
+        tipWrap.classList.toggle('open');
+      });
+      tipBtn.addEventListener('keydown',function(e){
+        if(e.key===' '||e.key==='Enter')e.stopPropagation();
+      });
+      document.addEventListener('click',function(e){
+        if(!tipWrap.contains(e.target))tipWrap.classList.remove('open');
+      });
+    }
+    const tabs=slide.querySelectorAll('.license-toggle [data-plan]');
+    const billingTabs=slide.querySelectorAll('[data-billing]');
+    const table=document.getElementById('licenses-table');
+    const priceBox=document.getElementById('license-price');
+    const priceLabel=document.getElementById('price-label');
+    const priceTotal=document.getElementById('price-total');
+    const priceTotalCop=document.getElementById('price-total-cop');
+    const priceBreakdown=document.getElementById('price-breakdown');
+    const trmInput=document.getElementById('trm-input');
+    const trmBox=document.getElementById('license-trm');
+    const trmHint=document.getElementById('trm-hint');
+    let currentPlan='business';
+    let currentBilling='annual';
+    let trmDemoTimer=null;
+    let trmHintTimer=null;
+    const copFmt=new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0});
+    function getTrm(){
+      var v=parseFloat(trmInput.value);
+      return isFinite(v)&&v>0?v:3400;
+    }
+    function getQuote(){
+      var perUser=RATES[currentBilling][currentPlan];
+      return{perUser:perUser,total:perUser*USERS};
+    }
+    function updatePrices(){
+      var q=getQuote();
+      var billLabel=currentBilling==='annual'?'pago anual':'pago mensual';
+      var cop=Math.round(q.total*getTrm());
+      priceLabel.textContent='Plan '+PLAN_NAMES[currentPlan]+' · '+USERS+' usuarios · '+billLabel;
+      priceTotal.textContent='USD $'+q.total+' / mes';
+      priceTotalCop.textContent=copFmt.format(cop)+' / mes';
+      priceBreakdown.textContent='USD $'+q.perUser+'/usuario × '+USERS+' usuarios · '+billLabel;
+    }
+    function dismissTrmHint(restore){
+      if(trmHintTimer){clearTimeout(trmHintTimer);trmHintTimer=null;}
+      if(trmDemoTimer){clearInterval(trmDemoTimer);trmDemoTimer=null;}
+      if(trmHint){trmHint.classList.remove('show');trmHint.setAttribute('aria-hidden','true');}
+      if(trmBox)trmBox.classList.remove('is-hint');
+      priceTotalCop.style.transform='';
+      if(restore!==false&&trmInput.dataset.baseTrm){
+        trmInput.value=trmInput.dataset.baseTrm;
+        updatePrices();
+      }
+    }
+    function playTrmHint(){
+      if(!trmHint||!trmBox||document.activeElement===trmInput)return;
+      dismissTrmHint(false);
+      var base=getTrm();
+      trmInput.dataset.baseTrm=String(base);
+      trmHint.classList.add('show');
+      trmHint.setAttribute('aria-hidden','false');
+      trmBox.classList.add('is-hint');
+      var step=0;
+      trmDemoTimer=setInterval(function(){
+        step++;
+        if(step===1){
+          trmInput.value=String(base+200);
+          updatePrices();
+          priceTotalCop.style.transform='scale(1.05)';
+        }else if(step===2){
+          trmInput.value=String(base);
+          updatePrices();
+          priceTotalCop.style.transform='';
+        }else if(step>=5){
+          dismissTrmHint(true);
+        }
+      },650);
+    }
+    function selectPlan(key){
+      if(!PLAN_NAMES[key])return;
+      currentPlan=key;
+      table.setAttribute('data-active',key);
+      priceBox.classList.remove('is-business','is-enterprise');
+      priceBox.classList.add(PLAN_CLS[key]);
+      priceTotal.style.opacity='0';
+      priceTotalCop.style.opacity='0';
+      setTimeout(function(){
+        updatePrices();
+        priceTotal.style.opacity='1';
+        priceTotalCop.style.opacity='1';
+      },120);
+      tabs.forEach(function(t){
+        var on=t.dataset.plan===key;
+        t.classList.toggle('active',on);
+        t.setAttribute('aria-selected',on?'true':'false');
+      });
+    }
+    function selectBilling(key){
+      if(!RATES[key])return;
+      currentBilling=key;
+      priceTotal.style.opacity='0';
+      priceTotalCop.style.opacity='0';
+      setTimeout(function(){
+        updatePrices();
+        priceTotal.style.opacity='1';
+        priceTotalCop.style.opacity='1';
+      },120);
+      billingTabs.forEach(function(t){
+        var on=t.dataset.billing===key;
+        t.classList.toggle('active',on);
+        t.setAttribute('aria-selected',on?'true':'false');
+      });
+    }
+    tabs.forEach(function(t){
+      t.addEventListener('click',function(){selectPlan(t.dataset.plan);});
+      t.addEventListener('keydown',function(e){
+        if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
+          e.preventDefault();e.stopPropagation();
+          var next=e.key==='ArrowRight'?'enterprise':'business';
+          if(t.dataset.plan==='enterprise'&&e.key==='ArrowLeft')next='business';
+          if(t.dataset.plan==='business'&&e.key==='ArrowRight')next='enterprise';
+          selectPlan(next);
+          slide.querySelector('[data-plan="'+next+'"]').focus();
+        }else if(e.key===' '||e.key==='Enter'){
+          e.stopPropagation();
+        }
+      });
+    });
+    billingTabs.forEach(function(t){
+      t.addEventListener('click',function(){selectBilling(t.dataset.billing);});
+      t.addEventListener('keydown',function(e){
+        if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
+          e.preventDefault();e.stopPropagation();
+          selectBilling(currentBilling==='annual'?'monthly':'annual');
+          slide.querySelector('[data-billing="'+currentBilling+'"]').focus();
+        }else if(e.key===' '||e.key==='Enter'){e.stopPropagation();}
+      });
+    });
+    trmInput.addEventListener('input',function(){dismissTrmHint(false);updatePrices();});
+    trmInput.addEventListener('focus',function(){dismissTrmHint(false);});
+    trmInput.addEventListener('click',function(){dismissTrmHint(false);});
+    trmInput.addEventListener('keydown',function(e){e.stopPropagation();});
+    document.addEventListener('slidechange',function(e){
+      if(e.detail.slide!==slide){dismissTrmHint(false);return;}
+      trmHintTimer=setTimeout(playTrmHint,500);
+    });
+    if(slides.indexOf(slide)===idx){trmHintTimer=setTimeout(playTrmHint,900);}
+    selectPlan('business');
+    selectBilling('annual');
+  })();
+
+  // Planes de soporte mensual — un plan a la vez + TRM
+  (function(){
+    const slide=document.getElementById('slide-support');
+    if(!slide)return;
+    const tabs=slide.querySelectorAll('.spm-tabs [data-plan]');
+    const panels=slide.querySelectorAll('.spm-panel');
+    const tabHint=document.getElementById('spm-tab-hint');
+    const planName=document.getElementById('spm-plan-name');
+    const priceUsd=document.getElementById('spm-price-usd');
+    const priceCop=document.getElementById('spm-price-cop');
+    const trmInput=document.getElementById('spm-trm-input');
+    const trmBox=document.getElementById('spm-trm');
+    const trmHint=document.getElementById('spm-trm-hint');
+    const PLANS=['basico','silver','plus'];
+    const PLAN_META={
+      basico:{name:'Básico',usd:'330',amount:330},
+      silver:{name:'Silver',usd:'660',amount:660},
+      plus:{name:'Plus',usd:'1.018',amount:1018}
+    };
+    let current='silver';
+    let tabHintTimer=null;
+    let tabDemoTimer=null;
+    let trmDemoTimer=null;
+    let trmHintTimer=null;
+    let tabHintSeen=false;
+    const copFmt=new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0});
+    function getTrm(){
+      var v=parseFloat(trmInput.value);
+      return isFinite(v)&&v>0?v:3400;
+    }
+    function updatePrices(){
+      const p=PLAN_META[current];if(!p)return;
+      const cop=Math.round(p.amount*getTrm());
+      planName.textContent=p.name;
+      priceUsd.innerHTML='$'+p.usd+' <small>USD/mes</small>';
+      priceCop.textContent=copFmt.format(cop)+' / mes';
+    }
+    function dismissTabHint(){
+      if(tabHintTimer){clearTimeout(tabHintTimer);tabHintTimer=null;}
+      if(tabDemoTimer){clearInterval(tabDemoTimer);tabDemoTimer=null;}
+      if(tabHint){tabHint.classList.remove('show');tabHint.setAttribute('aria-hidden','true');}
+      tabs.forEach(function(t){t.classList.remove('is-nudge');});
+      tabHintSeen=true;
+    }
+    function playTabHint(){
+      if(tabHintSeen||!tabHint)return;
+      tabHint.classList.add('show');
+      tabHint.setAttribute('aria-hidden','false');
+      var order=['basico','plus','silver'];
+      var step=0;
+      tabDemoTimer=setInterval(function(){
+        tabs.forEach(function(t){t.classList.remove('is-nudge');});
+        var btn=slide.querySelector('[data-plan="'+order[step%order.length]+'"]');
+        if(btn&&!btn.classList.contains('active'))btn.classList.add('is-nudge');
+        step++;
+        if(step>=6){
+          clearInterval(tabDemoTimer);tabDemoTimer=null;
+          tabs.forEach(function(t){t.classList.remove('is-nudge');});
+        }
+      },650);
+    }
+    function dismissTrmHint(restore){
+      if(trmHintTimer){clearTimeout(trmHintTimer);trmHintTimer=null;}
+      if(trmDemoTimer){clearInterval(trmDemoTimer);trmDemoTimer=null;}
+      if(trmHint){trmHint.classList.remove('show');trmHint.setAttribute('aria-hidden','true');}
+      if(trmBox)trmBox.classList.remove('is-hint');
+      priceCop.style.transform='';
+      if(restore!==false&&trmInput.dataset.baseTrm){
+        trmInput.value=trmInput.dataset.baseTrm;
+        updatePrices();
+      }
+    }
+    function playTrmHint(){
+      if(!trmHint||!trmBox||document.activeElement===trmInput)return;
+      dismissTrmHint(false);
+      var base=getTrm();
+      trmInput.dataset.baseTrm=String(base);
+      trmHint.classList.add('show');
+      trmHint.setAttribute('aria-hidden','false');
+      trmBox.classList.add('is-hint');
+      var step=0;
+      trmDemoTimer=setInterval(function(){
+        step++;
+        if(step===1){
+          trmInput.value=String(base+200);
+          updatePrices();
+          priceCop.style.transform='scale(1.05)';
+        }else if(step===2){
+          trmInput.value=String(base);
+          updatePrices();
+          priceCop.style.transform='';
+        }else if(step>=3){
+          clearInterval(trmDemoTimer);trmDemoTimer=null;
+        }
+      },650);
+    }
+    function selectPlan(key,fromUser){
+      if(PLANS.indexOf(key)<0)key='silver';
+      if(fromUser)dismissTabHint();
+      current=key;
+      tabs.forEach(function(tab){
+        var on=tab.dataset.plan===key;
+        tab.classList.toggle('active',on);
+        tab.setAttribute('aria-selected',on?'true':'false');
+      });
+      panels.forEach(function(panel){
+        var on=panel.id===key;
+        panel.classList.toggle('active',on);
+        panel.setAttribute('aria-hidden',on?'false':'true');
+        panel.setAttribute('tabindex',on?'0':'-1');
+      });
+      planName.style.opacity='0';
+      priceUsd.style.opacity='0';
+      priceCop.style.opacity='0';
+      setTimeout(function(){
+        updatePrices();
+        planName.style.opacity='1';
+        priceUsd.style.opacity='1';
+        priceCop.style.opacity='1';
+      },120);
+    }
+    tabs.forEach(function(tab){
+      tab.addEventListener('click',function(){selectPlan(tab.dataset.plan,true);});
+      tab.addEventListener('keydown',function(e){
+        var i=PLANS.indexOf(tab.dataset.plan);
+        if(e.key==='ArrowLeft'&&i>0){
+          e.preventDefault();e.stopPropagation();
+          selectPlan(PLANS[i-1],true);
+          slide.querySelector('[data-plan="'+PLANS[i-1]+'"]').focus();
+        }else if(e.key==='ArrowRight'&&i<PLANS.length-1){
+          e.preventDefault();e.stopPropagation();
+          selectPlan(PLANS[i+1],true);
+          slide.querySelector('[data-plan="'+PLANS[i+1]+'"]').focus();
+        }else if(e.key===' '||e.key==='Enter'){
+          e.stopPropagation();
+        }
+      });
+    });
+    trmInput.addEventListener('input',function(){dismissTrmHint(false);updatePrices();});
+    trmInput.addEventListener('focus',function(){dismissTrmHint(false);});
+    trmInput.addEventListener('click',function(){dismissTrmHint(false);});
+    trmInput.addEventListener('keydown',function(e){e.stopPropagation();});
+    document.addEventListener('slidechange',function(e){
+      if(e.detail.slide!==slide){
+        dismissTabHint();
+        dismissTrmHint(false);
+        return;
+      }
+      tabHintSeen=false;
+      tabHintTimer=setTimeout(playTabHint,450);
+      trmHintTimer=setTimeout(playTrmHint,2800);
+    });
+    var slideIdx=slides.indexOf(slide);
+    if(slideIdx===idx){
+      tabHintTimer=setTimeout(playTabHint,900);
+      trmHintTimer=setTimeout(playTrmHint,3200);
+    }
+    selectPlan('silver');
+  })();
+
+  // Slide inversión — comparar planes Notion + soporte
+  (function(){
+    const slide=document.getElementById('slide-invest');
+    if(!slide)return;
+    const LIC={business:{label:'Business'},enterprise:{label:'Enterprise'}};
+    const LIC_RATES={
+      monthly:{business:24,enterprise:32},
+      annual:{business:20,enterprise:26}
+    };
+    const LIC_USERS=12;
+    const SUP={basico:{usd:330,label:'Básico'},silver:{usd:660,label:'Silver'},plus:{usd:1018,label:'Plus'}};
+    const IMPL_USD=17500;
+    let lic='business',sup='silver',billing='annual';
+    const licTabs=slide.querySelectorAll('[data-lic]');
+    const billTabs=slide.querySelectorAll('[data-bill]');
+    const supTabs=slide.querySelectorAll('[data-sup]');
+    const implUsd=document.getElementById('inv-impl-usd');
+    const implCop=document.getElementById('inv-impl-cop');
+    const licCop=document.getElementById('inv-lic-cop');
+    const licUsd=document.getElementById('inv-lic-usd');
+    const supCop=document.getElementById('inv-sup-cop');
+    const supUsd=document.getElementById('inv-sup-usd');
+    const totalCop=document.getElementById('inv-total-cop');
+    const totalUsd=document.getElementById('inv-total-usd');
+    const trmInput=document.getElementById('inv-trm-input');
+    const copFmt=new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0});
+    function getTrm(){
+      var v=parseFloat(trmInput.value);
+      return isFinite(v)&&v>0?v:3400;
+    }
+    function fmtCopOnce(usd){return copFmt.format(Math.round(usd*getTrm()));}
+    function fmtUsdOnce(usd){return 'USD $'+usd.toLocaleString('es-CO')+' · pago único';}
+    function getLicTotal(){return LIC_RATES[billing][lic]*LIC_USERS;}
+    function fmtCop(usd){return copFmt.format(Math.round(usd*getTrm()))+' / mes';}
+    function fmtUsd(usd){return 'USD $'+usd+' / mes';}
+    function fmtLicUsd(){
+      var q=LIC_RATES[billing][lic];
+      var bill=billing==='annual'?'anual':'mensual';
+      return 'USD $'+(q*LIC_USERS)+' / mes · $'+q+'/usuario · '+bill;
+    }
+    function update(){
+      var l=LIC[lic],s=SUP[sup];
+      if(implUsd)implUsd.textContent=fmtUsdOnce(IMPL_USD);
+      if(implCop)implCop.textContent=fmtCopOnce(IMPL_USD);
+      var licTotal=getLicTotal();
+      licCop.textContent=fmtCop(licTotal);
+      licUsd.textContent=fmtLicUsd();
+      supCop.textContent=fmtCop(s.usd);
+      supUsd.textContent=fmtUsd(s.usd);
+      var tot=licTotal+s.usd;
+      totalCop.textContent=fmtCop(tot);
+      totalUsd.textContent=fmtUsd(tot);
+    }
+    function pickBilling(key){
+      if(!LIC_RATES[key])return;
+      billing=key;
+      billTabs.forEach(function(t){
+        var on=t.dataset.bill===key;
+        t.classList.toggle('active',on);
+        t.setAttribute('aria-selected',on?'true':'false');
+      });
+      update();
+    }
+    function pickLic(key){
+      if(!LIC[key])return;
+      lic=key;
+      licTabs.forEach(function(t){
+        var on=t.dataset.lic===key;
+        t.classList.toggle('active',on);
+        t.setAttribute('aria-selected',on?'true':'false');
+      });
+      update();
+    }
+    function pickSup(key){
+      if(!SUP[key])return;
+      sup=key;
+      supTabs.forEach(function(t){
+        var on=t.dataset.sup===key;
+        t.classList.toggle('active',on);
+        t.setAttribute('aria-selected',on?'true':'false');
+      });
+      update();
+    }
+    licTabs.forEach(function(t){
+      t.addEventListener('click',function(){pickLic(t.dataset.lic);});
+      t.addEventListener('keydown',function(e){
+        if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
+          e.preventDefault();e.stopPropagation();
+          pickLic(lic==='business'?'enterprise':'business');
+          slide.querySelector('[data-lic="'+lic+'"]').focus();
+        }else if(e.key===' '||e.key==='Enter'){e.stopPropagation();}
+      });
+    });
+    supTabs.forEach(function(t){
+      t.addEventListener('click',function(){pickSup(t.dataset.sup);});
+      t.addEventListener('keydown',function(e){
+        var keys=['basico','silver','plus'];
+        var i=keys.indexOf(t.dataset.sup);
+        if(e.key==='ArrowLeft'&&i>0){
+          e.preventDefault();e.stopPropagation();
+          pickSup(keys[i-1]);
+          slide.querySelector('[data-sup="'+keys[i-1]+'"]').focus();
+        }else if(e.key==='ArrowRight'&&i<keys.length-1){
+          e.preventDefault();e.stopPropagation();
+          pickSup(keys[i+1]);
+          slide.querySelector('[data-sup="'+keys[i+1]+'"]').focus();
+        }else if(e.key===' '||e.key==='Enter'){e.stopPropagation();}
+      });
+    });
+    billTabs.forEach(function(t){
+      t.addEventListener('click',function(){pickBilling(t.dataset.bill);});
+      t.addEventListener('keydown',function(e){
+        if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
+          e.preventDefault();e.stopPropagation();
+          pickBilling(billing==='annual'?'monthly':'annual');
+          slide.querySelector('[data-bill="'+billing+'"]').focus();
+        }else if(e.key===' '||e.key==='Enter'){e.stopPropagation();}
+      });
+    });
+    trmInput.addEventListener('input',update);
+    trmInput.addEventListener('keydown',function(e){e.stopPropagation();});
+    pickLic('business');
+    pickSup('silver');
+    pickBilling('annual');
   })();
 })();
 </script>
